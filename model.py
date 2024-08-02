@@ -12,9 +12,11 @@ for line in range(blocks):
     brick=pygame.rect.Rect([random.randint(10,100),random.randint(10,100),size])
     rects.append(brick)
 
-def click_check():
-    pass
-
+def click_check(cord):
+    for line in rects:
+        res=line.collidepoint(cord)
+        if res:
+            print('work')
 def model():
     pass
 
