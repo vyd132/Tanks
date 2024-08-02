@@ -9,4 +9,6 @@ bullet=pygame.transform.scale(bullet,[6,8])
 def view():
     global screen
     screen.fill([0, 0, 0])
+    for line in model.rects:
+        screen.blit(brick,line)
     pygame.display.flip()
