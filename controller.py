@@ -12,3 +12,5 @@ def event():
             model.show_rects=not model.show_rects
         if event.type==pygame.MOUSEBUTTONDOWN:
             model.click_check(event.pos)
+        if event.type == pygame.KEYDOWN and event.key == pygame.K_q:
+            model.show_image=not model.show_image
