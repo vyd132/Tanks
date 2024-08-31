@@ -6,7 +6,7 @@ cycle=False
 show_rects=False
 show_image=True
 build=True
-changes=False
+changes=True
 karta="""00011220
 01222100
 12000111
@@ -20,21 +20,30 @@ karta="""00011220
 # 2020
 # 1000"""
 angle=0
+if angle==90 or angle==270:
+    rotate='left and right'
+else:
+    rotate = 'up and down'
 speedx=0
 speedy=0
 rects=[]
 map_size=len(karta.split('\n'))
 # tank_image=pygame.image.load(random.choice(['sprites/battle_city_tanks/tank_player_size1_green1.png','sprites/battle_city_tanks/tank_player_size2_green1.png','sprites/battle_city_tanks/tank_player_size3_green1.png','sprites/battle_city_tanks/tank_player_size4_green1.png']))
-tank_image=pygame.image.load('sprites/battle_city_tanks/tank_player_size1_green1.png')
+tank_image=pygame.image.load('sprites/battle_city_tanks/tank_player_size2_green1.png')
 w=tank_image.get_width()
 h=tank_image.get_height()
 tank=pygame.rect.Rect([400,540,500 / map_size,(h*500 / map_size)/w])
 width2 = tank.w
 heith2=tank.h
+if rotate == 'left and right':
+    tank.w = heith2
+    tank.h = width2
+if rotate == 'up and down':
+    tank.w = width2
+    tank.h = heith2
 print(tank)
 x=0
 y = 0
-rotate='up and down'
 costume_number=0
 w2=500 / map_size
 for map in karta:
@@ -67,7 +76,7 @@ for map in karta:
     cycle = False
 
 def angle_and_move(angle2,speedx2,speedy2,rotate_param):
-    global angle,speedx,speedy,width2,heith2,rotate
+    global angle,speedx,speedy,width2,heith2,rotate,changes
     angle = angle2
     speedx = speedx2
     speedy = speedy2
@@ -78,6 +87,7 @@ def angle_and_move(angle2,speedx2,speedy2,rotate_param):
     if rotate_param=='up and down':
         tank.w = width2
         tank.h = heith2
+    changes = True
 
 def change_costume():
     global tank_image,costume_number,changes,w,h,tank,width2,heith2
@@ -85,15 +95,16 @@ def change_costume():
     tank_image=pygame.image.load(tanks[0+costume_number])
     w = tank_image.get_width()
     h = tank_image.get_height()
-    x=tank.x
-    y=tank.y
-    tank=None
     if rotate=='up and down':
-        tank = pygame.rect.Rect([x, y, 500 / map_size, (h * 500 / map_size) / w])
+        tank.w = 500 / map_size
+        tank.h=(h * 500 / map_size) / w
+        width2 = tank.w
+        heith2 = tank.h
     elif rotate=='left and right':
-        tank = pygame.rect.Rect([x, y,(h * 500 / map_size) / w, 500 / map_size ])
-    width2 = tank.w
-    heith2 = tank.h
+        tank.h = 500 / map_size
+        tank.w = (h * 500 / map_size) / w
+        width2 = tank.h
+        heith2 = tank.w
     costume_number+=1
     changes = True
     if costume_number==len(tanks):
