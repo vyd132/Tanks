@@ -1,110 +1,55 @@
 import random
 
-import pygame
+import pygame,rect_helper
 
-cycle=False
-show_rects=False
-show_image=True
-build=True
-changes=True
-karta="""00011220
-01222100
-12000111
-02211012
-02101021
-01212000
-11112220
-20221100"""
-# karta="""0110
-# 0010
-# 2020
-# 1000"""
-angle=0
-if angle==90 or angle==270:
-    rotate='left and right'
-else:
-    rotate = 'up and down'
-speedx=0
-speedy=0
-rects=[]
-map_size=len(karta.split('\n'))
-# tank_image=pygame.image.load(random.choice(['sprites/battle_city_tanks/tank_player_size1_green1.png','sprites/battle_city_tanks/tank_player_size2_green1.png','sprites/battle_city_tanks/tank_player_size3_green1.png','sprites/battle_city_tanks/tank_player_size4_green1.png']))
-tank_image=pygame.image.load('sprites/battle_city_tanks/tank_player_size2_green1.png')
-w=tank_image.get_width()
-h=tank_image.get_height()
-tank=pygame.rect.Rect([400,540,500 / map_size,(h*500 / map_size)/w])
-width2 = tank.w
-heith2=tank.h
-if rotate == 'left and right':
-    tank.w = heith2
-    tank.h = width2
-if rotate == 'up and down':
-    tank.w = width2
-    tank.h = heith2
-print(tank)
-x=0
-y = 0
-costume_number=0
-w2=500 / map_size
-for map in karta:
-    if map=='\n':
-        y += 1000 / map_size
-        x=0
-    if cycle:
-        continue
-    size = 1000 / map_size
-    if map == '0':
-        x += 1000 / map_size
-        # build=False*
-        cycle=True
-    if map == '1':
-        # build = True
-        brick=pygame.rect.Rect([x,y,size,size])
-        block={'rect':brick,'type':'brick'}
-        rects.append(block)
-        x += 1000 / map_size
-        # print(x)
-        cycle = True
-    if map=='2':
-        # build = True
-        brick = pygame.rect.Rect([x, y, size, size])
-        block = {'rect': brick, 'type': 'steel'}
-        rects.append(block)
-        # print(brick)
-        x += 1000 / map_size
-        cycle = True
+def map_create():
     cycle = False
+    x = 0
+    y = 0
+    for map in karta:
+        if map=='\n':
+            y += 1000 / map_size
+            x=0
+        if cycle:
+            continue
+        size = 1000 / map_size
+        if map == '0':
+            x += 1000 / map_size
+            # build=False*
+            cycle=True
+        if map == '1':
+            # build = True
+            brick=pygame.rect.Rect([x,y,size,size])
+            block={'rect':brick,'type':'brick'}
+            rects.append(block)
+            x += 1000 / map_size
+            # print(x)
+            cycle = True
+        if map=='2':
+            # build = True
+            brick = pygame.rect.Rect([x, y, size, size])
+            block = {'rect': brick, 'type': 'steel'}
+            rects.append(block)
+            # print(brick)
+            x += 1000 / map_size
+            cycle = True
+        cycle = False
 
 def angle_and_move(angle2,speedx2,speedy2,rotate_param):
-    global angle,speedx,speedy,width2,heith2,rotate,changes
+    global angle,speedx,speedy,original_width,original_height,rotate,changes
     angle = angle2
     speedx = speedx2
     speedy = speedy2
     rotate=rotate_param
-    if rotate_param=='left and right':
-        tank.w = heith2
-        tank.h = width2
-    if rotate_param=='up and down':
-        tank.w = width2
-        tank.h = heith2
+    rect_helper.rect_change(tank, rotate == 'up and down', tank_image, original_width, True)
     changes = True
 
+# def rect_change():
+
 def change_costume():
-    global tank_image,costume_number,changes,w,h,tank,width2,heith2
-    tanks=['sprites/battle_city_tanks/tank_player_size1_green1.png','sprites/battle_city_tanks/tank_player_size2_green1.png','sprites/battle_city_tanks/tank_player_size3_green1.png','sprites/battle_city_tanks/tank_player_size4_green1.png']
+    global tank_image,costume_number,changes,w,h,tank,original_width,original_height
     tank_image=pygame.image.load(tanks[0+costume_number])
-    w = tank_image.get_width()
-    h = tank_image.get_height()
-    if rotate=='up and down':
-        tank.w = 500 / map_size
-        tank.h=(h * 500 / map_size) / w
-        width2 = tank.w
-        heith2 = tank.h
-    elif rotate=='left and right':
-        tank.h = 500 / map_size
-        tank.w = (h * 500 / map_size) / w
-        width2 = tank.h
-        heith2 = tank.w
+    rect_helper.rect_change(tank, rotate =='up and down', tank_image, original_width, True)
     costume_number+=1
     changes = True
     if costume_number==len(tanks):
@@ -132,6 +77,43 @@ def model():
                 tank.bottom = line['rect'].top
                 continue
 
+show_rects=False
+show_image=True
+changes=True
+
+# Карта
+karta="""00011220
+01222100
+12000111
+02211012
+02101021
+01212000
+11112220
+20221100"""
+map_size=len(karta.split('\n'))
+rects=[]
+map_create()
+
+
+#Подоготовка танка
+angle=0
+if angle==90 or angle==270:
+    rotate='left and right'
+else:
+    rotate = 'up and down'
+
+speedx=0
+speedy=0
+
+tanks=['sprites/battle_city_tanks/tank_player_size1_green1.png','sprites/battle_city_tanks/tank_player_size2_green1.png','sprites/battle_city_tanks/tank_player_size3_green1.png','sprites/battle_city_tanks/tank_player_size4_green1.png']
+tank_image=pygame.image.load(tanks[0])
+costume_number=0
+
+w=tank_image.get_width()
+h=tank_image.get_height()
+tank=pygame.rect.Rect([400,540,0,0])
+original_width = 500 / map_size
+rect_helper.rect_change(tank,rotate=="up and down",tank_image,original_width,True)
 
 
 

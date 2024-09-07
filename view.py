@@ -25,14 +25,16 @@ def view():
             screen.blit(block, line['rect'])
         if model.show_rects:
             pygame.draw.rect(screen,[255,0,0],line['rect'],width=1)
-
     if model.changes:
-
         tank = pygame.transform.rotate(model.tank_image, -model.angle)
         tank = pygame.transform.scale(tank, model.tank.size)
     if model.show_image:
         screen.blit(tank, model.tank)
-        print(tank.get_size(), model.tank.size)
+        # print(tank.get_size(), model.tank.size)
     if model.show_rects:
         pygame.draw.rect(screen, [255, 255, 0], model.tank, width=1)
+
+
+
+
     pygame.display.flip()
