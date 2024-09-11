@@ -35,46 +35,46 @@ def map_create():
             cycle = True
         cycle = False
 
-def angle_and_move(angle2,speedx2,speedy2,rotate_param):
-    global angle,speedx,speedy,original_width,original_height,rotate,changes
-    angle = angle2
+def angle_and_move(angle2,speedx2,speedy2,tank_dict):
+    global angle,speedx,speedy,changes
+    tank_dict['angle'] = angle2
     speedx = speedx2
     speedy = speedy2
-    rotate=rotate_param
-    rect_helper.rect_change(tank, rotate == 'up and down', tank_image, original_width, True)
+
+    rect_helper.rect_change(tank_dict['rect'], tank_dict['angle'] in [0,180], tank_dict["image"], original_width, True)
     changes = True
 
 # def rect_change():
 
-def change_costume():
-    global tank_image,costume_number,changes,w,h,tank,original_width,original_height
-    tank_image=pygame.image.load(tanks[0+costume_number])
-    rect_helper.rect_change(tank, rotate =='up and down', tank_image, original_width, True)
-    costume_number+=1
+def change_costume(tank_dict):
+    global changes
+    tank_dict["image"]=pygame.image.load(tank_dict['costumes'][tank_dict['costume_number']])
+    rect_helper.rect_change(tank_dict['rect'], tank_dict['angle'] in [0,180], tank_dict["image"], original_width, True)#todo
+    tank_dict['costume_number']+=1
     changes = True
-    if costume_number==len(tanks):
-        costume_number=0
+    if tank_dict['costume_number']==len(tank_dict['costumes']):
+        tank_dict['costume_number']=0
 
-def model():
+def model(tank_dict):
     global speedx,speedy,changes
     changes=False
-    tank.x+=speedx
-    tank.y+=speedy
+    tank_dict['rect'].x+=speedx
+    tank_dict['rect'].y+=speedy
     speedx=0
     speedy=0
     for line in rects:
-        if line['rect'].colliderect(tank):
-            if tank.left<line['rect'].right and angle==270:
-                tank.left=line['rect'].right
+        if line['rect'].colliderect(tank_dict['rect']):
+            if tank_dict['rect'].left<line['rect'].right and tank_dict['angle']==270:
+                tank_dict['rect'].left=line['rect'].right
                 continue
-            if tank.right > line['rect'].left and angle==90:
-                tank.right = line['rect'].left
+            if tank_dict['rect'].right > line['rect'].left and tank_dict['angle']==90:
+                tank_dict['rect'].right = line['rect'].left
                 continue
-            if tank.top < line['rect'].bottom and angle==0:
-                tank.top = line['rect'].bottom
+            if tank_dict['rect'].top < line['rect'].bottom and tank_dict['angle']==0:
+                tank_dict['rect'].top = line['rect'].bottom
                 continue
-            if tank.bottom > line['rect'].top and angle == 180:
-                tank.bottom = line['rect'].top
+            if tank_dict['rect'].bottom > line['rect'].top and tank_dict['angle'] == 180:
+                tank_dict['rect'].bottom = line['rect'].top
                 continue
 
 show_rects=False
@@ -95,25 +95,27 @@ rects=[]
 map_create()
 
 
-#Подоготовка танка
-angle=0
-if angle==90 or angle==270:
-    rotate='left and right'
-else:
-    rotate = 'up and down'
+# Подоготовка танка
 
 speedx=0
 speedy=0
 
-tanks=['sprites/battle_city_tanks/tank_player_size1_green1.png','sprites/battle_city_tanks/tank_player_size2_green1.png','sprites/battle_city_tanks/tank_player_size3_green1.png','sprites/battle_city_tanks/tank_player_size4_green1.png']
-tank_image=pygame.image.load(tanks[0])
-costume_number=0
+tank_color_green=['sprites/battle_city_tanks/tank_player_size1_green1.png', 'sprites/battle_city_tanks/tank_player_size2_green1.png', 'sprites/battle_city_tanks/tank_player_size3_green1.png', 'sprites/battle_city_tanks/tank_player_size4_green1.png']
+tank_color_yellow=['sprites/battle_city_tanks/tank_player_size1_yellow1.png','sprites/battle_city_tanks/tank_player_size2_yellow1.png','sprites/battle_city_tanks/tank_player_size3_yellow1.png','sprites/battle_city_tanks/tank_player_size4_yellow1.png']
+tank_image_green=pygame.image.load(tank_color_green[0])
+tank_image_yellow=pygame.image.load(tank_color_yellow[0])
 
-w=tank_image.get_width()
-h=tank_image.get_height()
+
+
+w=tank_image_green.get_width()
+h=tank_image_green.get_height()
 tank=pygame.rect.Rect([400,540,0,0])
+tank2=pygame.rect.Rect([700,540,0,0])
+t1={"rect":tank,'costumes':tank_color_green,'image':tank_image_green,'costume_number':0,'angle':0}
+t2={"rect":tank2,'costumes':tank_color_yellow,'image':tank_image_yellow,'costume_number':0,'angle':0}
 original_width = 500 / map_size
-rect_helper.rect_change(tank,rotate=="up and down",tank_image,original_width,True)
+rect_helper.rect_change(t1['rect'],t1['angle'] ==0,t1['image'],original_width,True)
+rect_helper.rect_change(t2['rect'],t2['angle'] ==0,t2['image'],original_width,True)
 
 
 

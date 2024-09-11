@@ -1,7 +1,7 @@
 import pygame,model
 
 event_type=pygame.event.custom_type()
-
+pygame.key.set_repeat(100)
 
 def event():
     events=pygame.event.get()
@@ -15,12 +15,12 @@ def event():
         if event.type == pygame.KEYDOWN and event.key == pygame.K_q:
             model.show_image=not model.show_image
         if event.type == pygame.KEYDOWN and event.key == pygame.K_w:
-            model.angle_and_move(0,0,-0,'up and down')
+            model.angle_and_move(0,0,-3,model.t1)
         if event.type == pygame.KEYDOWN and event.key == pygame.K_d:
-            model.angle_and_move(90,0,0,'left and right')
+            model.angle_and_move(90,3,0,model.t1)
         if event.type == pygame.KEYDOWN and event.key == pygame.K_s:
-            model.angle_and_move(180,0,0,'up and down')
+            model.angle_and_move(180,0,3,model.t1)
         if event.type == pygame.KEYDOWN and event.key == pygame.K_a:
-            model.angle_and_move(270,-0,0,'left and right')
+            model.angle_and_move(270,-3,0,model.t1)
         if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
-            model.change_costume()
+            model.change_costume(model.t1)
