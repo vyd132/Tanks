@@ -1,6 +1,5 @@
 import pygame,model
 
-event_type=pygame.event.custom_type()
 pygame.key.set_repeat(100)
 
 def event():
@@ -24,3 +23,13 @@ def event():
             model.angle_and_move(270,-3,0,model.t1)
         if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
             model.change_costume(model.t1)
+        if event.type == pygame.KEYDOWN and event.key == pygame.K_UP:
+            model.angle_and_move(0,0,-3,model.t2)
+        if event.type == pygame.KEYDOWN and event.key == pygame.K_RIGHT:
+            model.angle_and_move(90,3,0,model.t2)
+        if event.type == pygame.KEYDOWN and event.key == pygame.K_DOWN:
+            model.angle_and_move(180,0,3,model.t2)
+        if event.type == pygame.KEYDOWN and event.key == pygame.K_LEFT:
+            model.angle_and_move(270,-3,0,model.t2)
+        if event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN:
+            model.change_costume(model.t2)

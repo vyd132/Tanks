@@ -1,6 +1,19 @@
 import random
 
 import pygame,model
+
+def tank_change(tank_dict):
+    tank = pygame.transform.rotate(tank_dict["image"], -tank_dict["angle"])
+    tank = pygame.transform.scale(tank, tank_dict["rect"].size)
+    return tank
+
+def tanks_save():
+    for tanks in model.tanks:
+        tank = tank_change(tanks)
+        tanks['image_view'] = tank
+
+
+
 pygame.init()
 screen=pygame.display.set_mode([1000,1000])
 brick=pygame.image.load('sprites/battle_city_items/block_brick.png')
@@ -9,10 +22,8 @@ steel=pygame.image.load('sprites/battle_city_items/block_steel.png')
 bullet=pygame.image.load('sprites/battle_city_items/bullet.png')
 bullet=pygame.transform.scale(bullet,[6,8])
 
-tank = pygame.transform.rotate(model.t1["image"], -model.t1["angle"])
-tank = pygame.transform.scale(tank, model.t1["rect"].size)
-tank2 = pygame.transform.rotate(model.t2["image"], -model.t2["angle"])
-tank2 = pygame.transform.scale(tank2, model.t2["rect"].size)
+tanks_save()
+
 
 def view():
     global screen,brick,steel,tank,tank2
@@ -27,19 +38,17 @@ def view():
         if model.show_rects:
             pygame.draw.rect(screen,[255,0,0],line['rect'],width=1)
     if model.changes:
-        tank = pygame.transform.rotate(model.t1["image"], -model.t1["angle"])
-        tank = pygame.transform.scale(tank, model.t1["rect"].size)
-        tank2 = pygame.transform.rotate(model.t2["image"], -model.t2["angle"])
-        tank2 = pygame.transform.scale(tank2, model.t2["rect"].size)
+        tanks_save()
     if model.show_image:
-        pygame.image.save(model.t2["image"],'tank_test.png')
-        print(model.t1["rect"])
-        screen.blit(tank, model.t1["rect"])
-        screen.blit(tank2, model.t2["rect"])
+        # pygame.image.save(model.t2["image"],'tank_test.png')
+        # print(model.t1["rect"])
+        for tanks in model.tanks:
+            screen.blit(tanks['image_view'], tanks["rect"])
         # print(tank.get_size(), model.tank.size)
     if model.show_rects:
-        pygame.draw.rect(screen, [255, 255, 0], model.t1["rect"], width=1)
-        pygame.draw.rect(screen, [255, 255, 0], model.t2["rect"], width=1)
+        for tanks in model.tanks:
+            pygame.draw.rect(screen, [255, 255, 0], tanks["rect"], width=1)
+
 
 
 
