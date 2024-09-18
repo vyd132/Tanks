@@ -12,19 +12,6 @@ def tanks_save():
         tank = tank_change(tanks)
         tanks['image_view'] = tank
 
-
-
-pygame.init()
-screen=pygame.display.set_mode([1000,1000])
-brick=pygame.image.load('sprites/battle_city_items/block_brick.png')
-steel=pygame.image.load('sprites/battle_city_items/block_steel.png')
-
-bullet=pygame.image.load('sprites/battle_city_items/bullet.png')
-bullet=pygame.transform.scale(bullet,[6,8])
-
-tanks_save()
-
-
 def view():
     global screen,brick,steel,tank,tank2
     screen.fill([0, 0, 0])
@@ -40,6 +27,8 @@ def view():
     if model.changes:
         tanks_save()
     if model.show_image:
+        for bullet in model.bullets:
+            screen.blit(bullet_image, bullet['rect'])
         # pygame.image.save(model.t2["image"],'tank_test.png')
         # print(model.t1["rect"])
         for tanks in model.tanks:
@@ -48,9 +37,17 @@ def view():
     if model.show_rects:
         for tanks in model.tanks:
             pygame.draw.rect(screen, [255, 255, 0], tanks["rect"], width=1)
-
-
-
-
-
     pygame.display.flip()
+
+
+
+pygame.init()
+screen=pygame.display.set_mode([1000,1000])
+
+brick=pygame.image.load('sprites/battle_city_items/block_brick.png')
+steel=pygame.image.load('sprites/battle_city_items/block_steel.png')
+bullet=pygame.image.load('sprites/battle_city_items/bullet.png')
+
+bullet_image=pygame.transform.scale(bullet,[6,8])
+
+tanks_save()

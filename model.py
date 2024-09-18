@@ -9,7 +9,8 @@ def costume_list_gen(type,color):
     return tank_list
 
 def tank_create(x,y,type,color):
-    tank = pygame.rect.Rect([x, y, 0, 0])
+    tank = pygame.rect.Rect([0, 0, 0, 0])
+
     costumes=costume_list_gen(type,color)
     image = pygame.image.load(costumes[0])
     t1 = {
@@ -22,7 +23,20 @@ def tank_create(x,y,type,color):
         "speedy": 0
     }
     rect_helper.rect_change(t1['rect'], t1['angle'] == 0, t1['image'], original_width, True)
+    tank.centerx = (1000 / map_size) * x + (1000 / map_size) / 2
+    tank.centery = 1000 / map_size * y + (1000 / map_size) / 2
     return t1
+
+def bullet_spawn(tank_dict):
+    bullet=pygame.rect.Rect([0,0,6,8])
+    bullet_dict={'rect':bullet,'angle':tank_dict['angle']}
+    if bullet_dict['angle']==0:
+        bullet.centerx=tank_dict['rect'].centerx
+        bullet.bottom = tank_dict['rect'].top
+    if bullet_dict['angle']==180:
+        bullet.centerx=tank_dict['rect'].centerx
+        bullet.top = tank_dict['rect'].bottom
+    bullets.append(bullet_dict)
 
 def map_create():
     cycle = False
@@ -121,10 +135,13 @@ map_create()
 
 # Подоготовка танка
 original_width = 500 / map_size
-t1=tank_create(400,540,'player','purple')
-t2=tank_create(700,400,'player','white')
-t3=tank_create(50,50,'enemy','yellow')
-tanks=[t1,t2,t3]
+t1=tank_create(7,1,'player','purple')
+t2=tank_create(5,4,'player','white')
+t3=tank_create(0,3,'enemy','yellow')
+t4=tank_create(1,7,'enemy','green')
+tanks=[t1,t2,t3,t4]
+bullets=[]
+print(t1)
 
 
 
