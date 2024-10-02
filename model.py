@@ -56,27 +56,29 @@ def bullet_spawn(tank_dict):
 
 
 def map_create():
-    cycle = False
-    x = 0
-    y = 0
-    for map in karta:
-        if map=='\n':
-            y += 1000 / map_size
-            x=0
-        if cycle:
-            continue
-        size_brick = 250 / map_size
-        size_metal = 1000 / map_size
-        if map == '0':
-            x += 1000 / map_size
-            # build=False*
-            cycle=True
-        if map == '1':
-            block=block_helper.block_create(block_helper.BLOCK_TYPE_BRICK,1000 / map_size)
-            rects.append(block)
-            x += 1000 / map_size
+    karta_def=karta.split('\n')
+    for map in range(len(karta_def)):
+        type_block_list=karta_def[map]
+        for block in type_block_list:
 
-            cycle = True
+            if type_block_list[int(block)]=='0':
+                continue
+            if type_block_list[int(block)]=='1':
+                block=block_helper.block_create(block_helper.BLOCK_TYPE_BRICK,map_size,int(block),map)
+                rects.append(block)
+
+
+        # if map=='\n':
+        #     y += 1
+        #     x=0
+        # if cycle:
+        #     continue
+        # if map == '0':
+        #     x += 1000 / map_size
+        # if map == '1':
+        #     block=block_helper.block_create(block_helper.BLOCK_TYPE_BRICK,map_size,5,4)
+        #     rects.append(block)
+        #     x += 1000 / map_size
         # if map=='2':
         #     # build = True
         #     brick = pygame.rect.Rect([x, y, size_metal, size_metal])
