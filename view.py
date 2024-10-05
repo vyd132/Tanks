@@ -1,6 +1,6 @@
 import random
 
-import pygame,model
+import pygame,model,block_helper
 
 def tank_change(tank_dict):
     tank = pygame.transform.rotate(tank_dict["image"], -tank_dict["angle"])
@@ -28,14 +28,12 @@ def view():
     global screen,brick,steel,tank,tank2
     screen.fill([0, 0, 0])
     for line in model.rects:
-    #     if line['type']=='brick':
-    #         block = pygame.transform.scale(brick, [line['rect'].w, line['rect'].h])
-    #     else:
-    #         block = pygame.transform.scale(steel, [line['rect'].w, line['rect'].h])
-    #     if model.show_image:
-    #         screen.blit(block, line['rect'])
-        if model.show_rects:
-            for block in line['rects']:
+        block_image=block_helper.image_block_create(line)
+        screen.blit(block_image,line['final_rect'])
+
+        for block in line['rects']:
+
+            if model.show_rects:
                 pygame.draw.rect(screen,[255,0,0],block,width=1)
     if model.changes:
         bullet_save()

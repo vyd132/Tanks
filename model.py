@@ -55,17 +55,21 @@ def bullet_spawn(tank_dict):
 
 
 
-def map_create():
+def map_create(karta):
+    rects=[]
     karta_def=karta.split('\n')
+    map_size = len(karta.split('\n'))
     for map in range(len(karta_def)):
         type_block_list=karta_def[map]
-        for block in type_block_list:
-
-            if type_block_list[int(block)]=='0':
+        for block in range(len(type_block_list)):
+            if type_block_list[block]=='0':
                 continue
-            if type_block_list[int(block)]=='1':
-                block=block_helper.block_create(block_helper.BLOCK_TYPE_BRICK,map_size,int(block),map)
-                rects.append(block)
+
+            brick=block_helper.block_create(type_block_list[block],map_size,block,map)
+            rects.append(brick)
+
+
+    return rects
 
 
         # if map=='\n':
@@ -87,7 +91,6 @@ def map_create():
         #     # print(brick)
         #     x += 1000 / map_size
         #     cycle = True
-        cycle = False
 
 def tank_angle_and_move(angle2,speedx2,speedy2,tank_dict):
     global angle,speedx,speedy,changes
@@ -151,8 +154,7 @@ karta="""00011220
 # 000
 # 000"""
 map_size=len(karta.split('\n'))
-rects=[]
-map_create()
+rects=map_create(karta)
 
 bullet_image=pygame.image.load('sprites/battle_city_items/bullet.png')
 bullet_original_width = 60 / map_size
