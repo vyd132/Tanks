@@ -30,7 +30,6 @@ def view():
     for line in model.rects:
         block_image=block_helper.image_block_create(line)
         screen.blit(block_image,line['final_rect'])
-
         for block in line['rects']:
 
             if model.show_rects:

@@ -53,8 +53,6 @@ def bullet_spawn(tank_dict):
     bullets.append(bullet_dict)
     changes=True
 
-
-
 def map_create(karta):
     rects=[]
     karta_def=karta.split('\n')
@@ -64,33 +62,12 @@ def map_create(karta):
         for block in range(len(type_block_list)):
             if type_block_list[block]=='0':
                 continue
-
             brick=block_helper.block_create(type_block_list[block],map_size,block,map)
             rects.append(brick)
-
-
     return rects
 
 
-        # if map=='\n':
-        #     y += 1
-        #     x=0
-        # if cycle:
-        #     continue
-        # if map == '0':
-        #     x += 1000 / map_size
-        # if map == '1':
-        #     block=block_helper.block_create(block_helper.BLOCK_TYPE_BRICK,map_size,5,4)
-        #     rects.append(block)
-        #     x += 1000 / map_size
-        # if map=='2':
-        #     # build = True
-        #     brick = pygame.rect.Rect([x, y, size_metal, size_metal])
-        #     block = {'rect': brick, 'type': 'steel'}
-        #     rects.append(block)
-        #     # print(brick)
-        #     x += 1000 / map_size
-        #     cycle = True
+
 
 def tank_angle_and_move(angle2,speedx2,speedy2,tank_dict):
     global angle,speedx,speedy,changes
@@ -99,9 +76,6 @@ def tank_angle_and_move(angle2,speedx2,speedy2,tank_dict):
     tank_dict['speedy'] = speedy2
     rect_helper.rect_change(tank_dict['rect'], tank_dict['angle'] in [0,180], tank_dict["image"], original_width, True)
     changes = True
-
-# def rect_change():
-
 def change_costume(tank_dict):
     global changes
     tank_dict["image"]=pygame.image.load(tank_dict['costumes'][tank_dict['costume_number']])
@@ -121,21 +95,21 @@ def model(tank_dict):
     for bullets_dict in  bullets:
         bullets_dict['rect'].x+=bullets_dict['speedx']
         bullets_dict['rect'].y+=bullets_dict['speedy']
-
-    # for line in rects:
-    #     if line['rect'].colliderect(tank_dict['rect']):
-    #         if tank_dict['rect'].left<line['rect'].right and tank_dict['angle']==270:
-    #             tank_dict['rect'].left=line['rect'].right
-    #             continue
-    #         if tank_dict['rect'].right > line['rect'].left and tank_dict['angle']==90:
-    #             tank_dict['rect'].right = line['rect'].left
-    #             continue
-    #         if tank_dict['rect'].top < line['rect'].bottom and tank_dict['angle']==0:
-    #             tank_dict['rect'].top = line['rect'].bottom
-    #             continue
-    #         if tank_dict['rect'].bottom > line['rect'].top and tank_dict['angle'] == 180:
-    #             tank_dict['rect'].bottom = line['rect'].top
-    #             continue
+    for line in rects:
+        for rect in line['rects']:
+            if rect.colliderect(tank_dict['rect']):
+                if tank_dict['rect'].left<rect.right and tank_dict['angle']==270:
+                    tank_dict['rect'].left=rect.right
+                    continue
+                if tank_dict['rect'].right > rect.left and tank_dict['angle']==90:
+                    tank_dict['rect'].right = rect.left
+                    continue
+                if tank_dict['rect'].top < rect.bottom and tank_dict['angle']==0:
+                    tank_dict['rect'].top = rect.bottom
+                    continue
+                if tank_dict['rect'].bottom > rect.top and tank_dict['angle'] == 180:
+                    tank_dict['rect'].bottom = rect.top
+                    continue
 
 show_rects=False
 show_image=True
