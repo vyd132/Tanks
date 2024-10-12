@@ -1,4 +1,4 @@
-import pygame,model
+import pygame,model,bullet_helper
 
 pygame.key.set_repeat(100)
 
@@ -25,7 +25,7 @@ def event():
         if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
             model.change_costume(model.t1)
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == pygame.BUTTON_LEFT:
-            model.bullet_spawn(model.t1)
+            model.changes=bullet_helper.bullet_spawn(model.t1,model.map_size,model.bullets)
 
         if event.type == pygame.KEYDOWN and event.key == pygame.K_UP:
             model.tank_angle_and_move(0,0,-3,model.t2)

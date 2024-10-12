@@ -2,6 +2,9 @@ import random
 
 import pygame,rect_helper,block_helper
 
+import bullet_helper
+
+
 def costume_list_gen(type,color):
     tank_list=[]
     for size in range(1,5):
@@ -10,7 +13,6 @@ def costume_list_gen(type,color):
 
 def tank_create(x,y,type,color):
     tank = pygame.rect.Rect([0, 0, 0, 0])
-
     costumes=costume_list_gen(type,color)
     image = pygame.image.load(costumes[0])
     t1 = {
@@ -27,31 +29,7 @@ def tank_create(x,y,type,color):
     tank.centery = 1000 / map_size * y + (1000 / map_size) / 2
     return t1
 
-def bullet_spawn(tank_dict):
-    global changes
-    bullet=pygame.rect.Rect([0,0,6,8])
-    speedx=0
-    speedy=0
-    bullet_dict={'rect':bullet,'angle':tank_dict['angle'],'image':bullet_image,'speedx':speedx,'speedy':speedy}
-    rect_helper.rect_change(bullet, tank_dict['angle'] in [0, 180], bullet_image, bullet_original_width, True)
-    if bullet_dict['angle']==0:
-        bullet.centerx=tank_dict['rect'].centerx
-        bullet.bottom = tank_dict['rect'].top
-        bullet_dict['speedy']=-3
-    if bullet_dict['angle']==180:
-        bullet.centerx=tank_dict['rect'].centerx
-        bullet.top = tank_dict['rect'].bottom
-        bullet_dict['speedy'] = 3
-    if bullet_dict['angle']==90:
-        bullet.left = tank_dict['rect'].right
-        bullet.centery = tank_dict['rect'].centery
-        bullet_dict['speedx'] = 3
-    if bullet_dict['angle'] == 270:
-        bullet.right = tank_dict['rect'].left
-        bullet.centery = tank_dict['rect'].centery
-        bullet_dict['speedx'] = -3
-    bullets.append(bullet_dict)
-    changes=True
+
 
 def map_create(karta):
     rects=[]
@@ -93,8 +71,9 @@ def model(tank_dict):
     tank_dict['speedx'] = 0
     tank_dict['speedy']=0
     for bullets_dict in  bullets:
-        bullets_dict['rect'].x+=bullets_dict['speedx']
-        bullets_dict['rect'].y+=bullets_dict['speedy']
+        shot=bullet_helper.bullet_fly(bullets_dict,rects)
+        if shot:
+            bullets.remove(bullets_dict)
     for line in rects:
         for rect in line['rects']:
             if rect.colliderect(tank_dict['rect']):
@@ -124,14 +103,14 @@ karta="""00011220
 01212000
 11112220
 20221100"""
-# karta="""000
-# 000
-# 000"""
+# karta="""010
+# 002
+# 100"""
 map_size=len(karta.split('\n'))
 rects=map_create(karta)
 
-bullet_image=pygame.image.load('sprites/battle_city_items/bullet.png')
-bullet_original_width = 60 / map_size
+
+
 
 # Подоготовка танка
 original_width = 500 / map_size
