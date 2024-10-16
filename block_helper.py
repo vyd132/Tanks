@@ -18,7 +18,7 @@ def block_check(block_dict,bullet_rect):
 
 def image_block_create(block:dict):
     brick_rect_copy =block['final_rect']
-    block_clear = pygame.Surface(block['final_rect'].size)
+    block_clear = pygame.Surface(block['final_rect'].size,pygame.SRCALPHA)
     image=brick_image if block['type']==BLOCK_TYPE_BRICK else steel_image
     brick = pygame.transform.scale(image, [block['final_rect'].width/small_block_count+1,block['final_rect'].height/small_block_count+1])
     for brick_rect in block['rects']:
