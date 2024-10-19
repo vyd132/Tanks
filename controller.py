@@ -22,7 +22,7 @@ def event():
             model.tank_angle_and_move(180,0,3,model.t1)
         if event.type == pygame.KEYDOWN and event.key == pygame.K_a:
             model.tank_angle_and_move(270,-3,0,model.t1)
-        if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
+        if event.type == pygame.KEYUP and event.key == pygame.K_SPACE:
             tank_helper.change_costume(model.t1,model.original_width)
             model.changes = True
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == pygame.BUTTON_LEFT:
@@ -36,6 +36,6 @@ def event():
             model.tank_angle_and_move(180,0,3,model.t2)
         if event.type == pygame.KEYDOWN and event.key == pygame.K_LEFT:
             model.tank_angle_and_move(270,-3,0,model.t2)
-        if event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN:
+        if event.type == pygame.KEYUP and event.key == pygame.K_RETURN:
             tank_helper.change_costume(model.t2,model.original_width)
             model.changes = True

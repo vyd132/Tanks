@@ -79,10 +79,11 @@ rects=map_create(karta)
 
 # Подоготовка танка
 original_width = 500 / map_size
-t1=tank_helper.tank_create(0,0,'player','purple',map_size,original_width)
-t2=tank_helper.tank_create(5,4,'player','white',map_size,original_width)
+t1=tank_helper.tank_create(0,0,'player','green',map_size,original_width)
+t2=tank_helper.tank_create(5,4,'player','yellow',map_size,original_width)
 t3=tank_helper.tank_create(0,3,'enemy','yellow',map_size,original_width)
 t4=tank_helper.tank_create(1,7,'enemy','green',map_size,original_width)
+# tank_helper.hp_change_costume(t1)
 tanks=[t1,t2,t3,t4]
 bullets=[]
 
