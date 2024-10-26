@@ -10,7 +10,7 @@ def tank_angle_and_move(angle2,speedx2,speedy2,tank_dict):
     tank_dict['angle'] = angle2
     tank_dict['speedx'] = speedx2
     tank_dict['speedy'] = speedy2
-    rect_helper.rect_change(tank_dict['rect'], tank_dict['angle'] in [0,180], tank_dict["image"], original_width, True)
+    rect_helper.rect_change(tank_dict['rect'], tank_dict['angle'] in [0,180], tank_dict["image"], tank_dict['original_width'], True)
     changes = True
 
 
@@ -78,12 +78,10 @@ rects=map_create(karta)
 
 
 # Подоготовка танка
-original_width = 500 / map_size
-t1=tank_helper.tank_create(0,0,'player','green',map_size,original_width)
-t2=tank_helper.tank_create(5,4,'player','yellow',map_size,original_width)
-t3=tank_helper.tank_create(0,3,'enemy','yellow',map_size,original_width)
-t4=tank_helper.tank_create(1,7,'enemy','green',map_size,original_width)
-# tank_helper.hp_change_costume(t1)
+t1=tank_helper.tank_create(0,0,'player','purple',map_size,18,2)
+t2=tank_helper.tank_create(5,4,'player','yellow',map_size,2,0)
+t3=tank_helper.tank_create(0,3,'enemy','yellow',map_size,1,3)
+t4=tank_helper.tank_create(1,7,'enemy','green',map_size,4,3)
 tanks=[t1,t2,t3,t4]
 bullets=[]
 
