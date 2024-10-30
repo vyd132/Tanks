@@ -1,18 +1,22 @@
 import pygame
+
+import tank_helper
+
 small_block_count=2
 
 BLOCK_TYPE_BRICK=1
 BLOCK_TYPE_STEEL=2
 brick_image=pygame.image.load('sprites/battle_city_items/block_brick.png')
 steel_image=pygame.image.load('sprites/battle_city_items/block_steel.png')
-def block_check(block_dict,bullet_rect):
+def block_check(block_dict,bullet_rect,can_break_metal):
     collidebig = block_dict['final_rect'].colliderect(bullet_rect)
     if not collidebig:
         return
     for block_rect in block_dict['rects']:
         collide=block_rect.colliderect(bullet_rect)
         if collide:
-            block_dict['rects'].remove(block_rect)
+            if block_dict['type']==BLOCK_TYPE_BRICK or (block_dict['type']==BLOCK_TYPE_STEEL and can_break_metal):
+                block_dict['rects'].remove(block_rect)
             return True
 
 

@@ -2,25 +2,48 @@ import pygame,rect_helper
 pygame.init()
 font=pygame.font.SysFont('arial',20,True)
 
+
+def enemy_downgarde(tank_dict):
+    if tank_dict['hp']<=1:
+        return
+    tank_dict['hp']-=1
+    hp_change_costume(tank_dict)
+
 def upgrade(tank_dict):
     if tank_dict['lvl']+1==len(tank_dict['costumes']):
         return
     tank_dict['lvl']+=1
     tank_dict['hp']+=1
-    lvl_change(tank_dict)
+    player_lvl_change(tank_dict)
 
-def lvl_change(tank_dict):
+def player_lvl_change(tank_dict):
+    if tank_dict['type']!='player':
+        return
+    if tank_dict['lvl']>=1:
+        tank_dict['bullet_speed']=6
+        tank_dict['bullets_limit'] = 2
+    else:
+        tank_dict['bullet_speed'] = 2
+        tank_dict['bullets_limit'] = 1
+
+    if tank_dict['lvl']==3:
+        tank_dict['can_break_metal']=True
+    else:
+        tank_dict['can_break_metal'] = False
     tank_dict["image"] = pygame.image.load(tank_dict['costumes'][tank_dict['lvl']])
     rect_helper.rect_change(tank_dict['rect'], tank_dict['angle'] in [0, 180], tank_dict["image"],
                             tank_dict['original_width'], True)
 
+
+def metal_check(tank_dict):
+    return tank_dict['can_break_metal']
 
 def downgrade(tank_dict):
     if tank_dict['lvl']==0:
         return
     tank_dict['lvl']-=1
     tank_dict['hp']-=1
-    lvl_change(tank_dict)
+    player_lvl_change(tank_dict)
 
 def view(tank_dict,surface):
     surface.blit(tank_dict['image_view'], tank_dict["rect"])
@@ -35,12 +58,14 @@ def debug_view(tank_dict,surface):
 def hp_change_costume(tank_dict):
     if tank_dict['type']=='player':
         return
+    if tank_dict['hp']>=3:
+        color='purple'
     if tank_dict['hp']==2:
-        tank_dict['costumes']=costume_list_gen('enemy','yellow')
-        tank_dict['image'] = pygame.image.load(tank_dict['costumes'][tank_dict['lvl']])
+        color='yellow'
     if tank_dict['hp'] == 1:
-        tank_dict['costumes']=costume_list_gen('enemy', 'white')
-        tank_dict['image'] = pygame.image.load(tank_dict['costumes'][tank_dict['lvl']])
+        color='white'
+    tank_dict['costumes'] = costume_list_gen('enemy', color)
+    tank_dict['image'] = pygame.image.load(tank_dict['costumes'][tank_dict['lvl']])
 
 def costume_list_gen(type,color):
     tank_list=[]
@@ -52,6 +77,10 @@ def enemy_param_change(tank_dict,hp):
     if tank_dict['type']=='player':
         return
     tank_dict['hp']=hp
+    if tank_dict['lvl']==3:
+        tank_dict['can_break_metal']=True
+    else:
+        tank_dict['can_break_metal'] = False
 
 def tank_create(x,y,type,color,map_size,hp,lvl):
     tank = pygame.rect.Rect([0, 0, 0, 0])
@@ -60,19 +89,21 @@ def tank_create(x,y,type,color,map_size,hp,lvl):
         'angle': 0,
         "speedx": 0,
         "speedy": 0,
-        'bullet_speed': 3,
-        'bullets_limit':3,
+        'bullet_speed': 2,
+        'bullets_limit':1,
         'my_bullets':0,
         'color':color,
         'type':type,
         'lvl':lvl,
-        'original_width':500 / map_size
+        'original_width':500 / map_size,
+        'can_break_metal':False
     }
     t1['costumes'] = costume_list_gen(type, t1['color'])
     t1['image']= pygame.image.load(t1['costumes'][t1['lvl']])
     t1['hp']=t1['lvl']+1
     enemy_param_change(t1,hp)
     hp_change_costume(t1)
+    player_lvl_change(t1)
     rect_helper.rect_change(t1['rect'], t1['angle'] == 0, t1['image'], t1['original_width'], True)
     tank.centerx = (1000 / map_size) * x + (1000 / map_size) / 2
     tank.centery = 1000 / map_size * y + (1000 / map_size) / 2

@@ -1,4 +1,7 @@
 import pygame,rect_helper,block_helper
+
+import tank_helper
+
 bullet_image=pygame.image.load('sprites/battle_city_items/bullet.png')
 
 def bullet_fly(bullets_dict,block_list):
@@ -8,7 +11,7 @@ def bullet_fly(bullets_dict,block_list):
         bullets_dict['tank_dict']['my_bullets'] -= 1
         return True
     for block_dict in block_list:
-        collide=block_helper.block_check(block_dict,bullets_dict['rect'])
+        collide=block_helper.block_check(block_dict,bullets_dict['rect'],tank_helper.metal_check(bullets_dict['tank_dict']))
         if collide:
             bullets_dict['tank_dict']['my_bullets']-=1
             return True
