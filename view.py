@@ -2,27 +2,19 @@ import random
 
 import pygame,model,block_helper,tank_helper
 
-def tank_change(tank_dict):
-    tank = pygame.transform.rotate(tank_dict["image"], -tank_dict["angle"])
-    tank = pygame.transform.scale(tank, tank_dict["rect"].size)
-    return tank
 
-def tanks_save():
-    for tanks in model.tanks:
-        tank = tank_change(tanks)
-        tanks['image_view'] = tank
 
-def bullet_change(bullet_dict):
-    bullet= pygame.transform.rotate(bullet_dict["image"], -bullet_dict["angle"])
-    bullet = pygame.transform.scale(bullet, bullet_dict["rect"].size)
-    return bullet
-
-def bullet_save():
-    for bullets in model.bullets:
-        if 'image_view' in bullets:
-            continue
-        bullet_new = tank_change(bullets)
-        bullets['image_view'] = bullet_new
+# def bullet_change(bullet_dict):
+#     bullet= pygame.transform.rotate(bullet_dict["image"], -bullet_dict["angle"])
+#     bullet = pygame.transform.scale(bullet, bullet_dict["rect"].size)
+#     return bullet
+#
+# def bullet_save():
+#     for bullets in model.bullets:
+#         if 'image_view' in bullets:
+#             continue
+#         bullet_new = bullet_change(bullets)
+#         bullets['image_view'] = bullet_new
 
 def view():
     global screen,brick,steel,tank,tank2
@@ -35,9 +27,6 @@ def view():
             if model.show_rects:
 
                 pygame.draw.rect(screen,[255,0,0],block,width=1)
-    if model.changes:
-        bullet_save()
-        tanks_save()
     if model.show_image:
         for bullet in model.bullets:
             screen.blit(bullet['image_view'], bullet['rect'])

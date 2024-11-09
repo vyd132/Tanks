@@ -8,6 +8,7 @@ def enemy_downgarde(tank_dict):
         return
     tank_dict['hp']-=1
     hp_change_costume(tank_dict)
+    tanks_save(tank_dict)
 
 def upgrade(tank_dict):
     if tank_dict['lvl']+1==len(tank_dict['costumes']):
@@ -15,6 +16,7 @@ def upgrade(tank_dict):
     tank_dict['lvl']+=1
     tank_dict['hp']+=1
     player_lvl_change(tank_dict)
+    tanks_save(tank_dict)
 
 def player_lvl_change(tank_dict):
     if tank_dict['type']!='player':
@@ -44,6 +46,7 @@ def downgrade(tank_dict):
     tank_dict['lvl']-=1
     tank_dict['hp']-=1
     player_lvl_change(tank_dict)
+    tanks_save(tank_dict)
 
 def view(tank_dict,surface):
     surface.blit(tank_dict['image_view'], tank_dict["rect"])
@@ -81,6 +84,18 @@ def enemy_param_change(tank_dict,hp):
         tank_dict['can_break_metal']=True
     else:
         tank_dict['can_break_metal'] = False
+
+def tank_check(tank_dict,bullet_rect):
+    if tank_dict['rect'].colliderect(bullet_rect):
+        enemy_downgarde(tank_dict)
+        return True
+
+
+
+def tanks_save(tank_dict):
+    tank = pygame.transform.rotate(tank_dict["image"], -tank_dict["angle"])
+    tank = pygame.transform.scale(tank, tank_dict["rect"].size)
+    tank_dict['image_view'] = tank
 
 def tank_create(x,y,type,color,map_size,hp,lvl):
     tank = pygame.rect.Rect([0, 0, 0, 0])

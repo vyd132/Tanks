@@ -24,10 +24,8 @@ def event():
             model.tank_angle_and_move(270,-3,0,model.t1)
         if event.type == pygame.KEYUP and event.key == pygame.K_e:
             tank_helper.upgrade(model.t1)
-            model.changes = True
         if event.type == pygame.KEYUP and event.key == pygame.K_r:
             tank_helper.downgrade(model.t1)
-            model.changes = True
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == pygame.BUTTON_LEFT:
             model.changes=bullet_helper.bullet_spawn(model.t1,model.map_size,model.bullets)
 
@@ -41,11 +39,9 @@ def event():
             model.tank_angle_and_move(270,-3,0,model.t2)
         if event.type == pygame.KEYUP and event.key == pygame.K_RETURN:
             tank_helper.upgrade(model.t2)
-            model.changes = True
 
         if event.type == pygame.KEYUP and event.key == pygame.K_f:
             tank_helper.enemy_downgarde(model.t4)
-            model.changes = True
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == pygame.BUTTON_RIGHT:
             model.changes=bullet_helper.bullet_spawn(model.t4,model.map_size,model.bullets)
         # if event.type == pygame.KEYUP and event.key == pygame.K_g:
@@ -54,7 +50,5 @@ def event():
 
         if event.type == pygame.KEYUP and event.key == pygame.K_t:
             tank_helper.upgrade(model.t3)
-            model.changes = True
         if event.type == pygame.KEYUP and event.key == pygame.K_y:
             tank_helper.downgrade(model.t3)
-            model.changes = True

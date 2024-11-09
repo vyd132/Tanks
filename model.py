@@ -36,7 +36,8 @@ def model(tank_dict):
     tank_dict['speedx'] = 0
     tank_dict['speedy']=0
     for bullets_dict in  bullets:
-        shot=bullet_helper.bullet_fly(bullets_dict,rects)
+        shot=bullet_helper.bullet_fly(bullets_dict,rects,tanks)
+        print(changes)
         if shot:
             bullets.remove(bullets_dict)
     for line in rects:

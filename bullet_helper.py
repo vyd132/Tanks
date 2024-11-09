@@ -4,17 +4,26 @@ import tank_helper
 
 bullet_image=pygame.image.load('sprites/battle_city_items/bullet.png')
 
-def bullet_fly(bullets_dict,block_list):
+def bullet_fly(bullets_dict,block_list,tank_list):
     bullets_dict['rect'].x += bullets_dict['speedx']
     bullets_dict['rect'].y += bullets_dict['speedy']
     if bullets_dict['rect'].x<0 or bullets_dict['rect'].x>1000 or bullets_dict['rect'].y<0 or bullets_dict['rect'].y>1000:
         bullets_dict['tank_dict']['my_bullets'] -= 1
         return True
+    collide = False
     for block_dict in block_list:
+        if collide: break
         collide=block_helper.block_check(block_dict,bullets_dict['rect'],tank_helper.metal_check(bullets_dict['tank_dict']))
-        if collide:
-            bullets_dict['tank_dict']['my_bullets']-=1
-            return True
+
+    for tank_dict in tank_list:
+        if collide: break
+        if tank_dict is bullets_dict['tank_dict']:
+            continue
+        collide=tank_helper.tank_check(tank_dict,bullets_dict['rect'])
+    if collide:
+
+        bullets_dict['tank_dict']['my_bullets']-=1
+        return True
 
 
 
