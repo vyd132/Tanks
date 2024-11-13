@@ -36,9 +36,9 @@ def block_create(type_of_block:int,mapsize:int,x:int,y:int):
     for blocky in range(small_block_count):
         for blockx in range(small_block_count):
 
-            # print(test_cord)
+
             x_rect=block_size * x+(block_size/small_block_count*blockx)
-            print(x)
+
             y_rect=block_size * y+(block_size/small_block_count*blocky)
             brick=pygame.rect.Rect([x_rect,y_rect,(block_size)/small_block_count+1,(block_size)/small_block_count+1])
             blocks_list.append(brick)

@@ -19,7 +19,7 @@ def bullet_fly(bullets_dict,block_list,tank_list):
         if collide: break
         if tank_dict is bullets_dict['tank_dict']:
             continue
-        collide=tank_helper.tank_check(tank_dict,bullets_dict['rect'])
+        collide=tank_helper.tank_check(tank_dict,bullets_dict['rect'],tank_list)
     if collide:
 
         bullets_dict['tank_dict']['my_bullets']-=1
@@ -34,6 +34,7 @@ def bullet_spawn(tank_dict,block_count,bullet_list):
     bullet=pygame.rect.Rect([0,0,6,8])
     bullet_dict={'rect':bullet,'angle':tank_dict['angle'],'image':bullet_image,'speedx':0,'speedy':0,'tank_dict':tank_dict}
     rect_helper.rect_change(bullet, tank_dict['angle'] in [0, 180], bullet_image,60/block_count, True)
+
     if bullet_dict['angle']==0:
         bullet.centerx=tank_dict['rect'].centerx
         bullet.bottom = tank_dict['rect'].top
@@ -50,6 +51,10 @@ def bullet_spawn(tank_dict,block_count,bullet_list):
         bullet.right = tank_dict['rect'].left
         bullet.centery = tank_dict['rect'].centery
         bullet_dict['speedx'] = -tank_dict['bullet_speed']
+
     bullet_list.append(bullet_dict)
     tank_dict['my_bullets']+=1
-    return True
+
+    bullet = pygame.transform.rotate(bullet_dict["image"], -bullet_dict["angle"])
+    bullet = pygame.transform.scale(bullet, bullet_dict["rect"].size)
+    bullet_dict['image_view'] = bullet

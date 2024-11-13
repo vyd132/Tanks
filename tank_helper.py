@@ -2,9 +2,13 @@ import pygame,rect_helper
 pygame.init()
 font=pygame.font.SysFont('arial',20,True)
 
+def tank_die(tank_list,tank_dict):
+    tank_list.remove(tank_dict)
 
-def enemy_downgarde(tank_dict):
+
+def enemy_downgarde(tank_dict,tank_list):
     if tank_dict['hp']<=1:
+        tank_die(tank_list,tank_dict)
         return
     tank_dict['hp']-=1
     hp_change_costume(tank_dict)
@@ -35,6 +39,35 @@ def player_lvl_change(tank_dict):
     tank_dict["image"] = pygame.image.load(tank_dict['costumes'][tank_dict['lvl']])
     rect_helper.rect_change(tank_dict['rect'], tank_dict['angle'] in [0, 180], tank_dict["image"],
                             tank_dict['original_width'], True)
+
+
+def right(tank_dict):
+    tank_dict['angle'] = 90
+    tank_dict['speedx'] = 3
+    tank_dict['speedy'] = 0
+    rect_helper.rect_change(tank_dict['rect'], tank_dict['angle'] in [0, 180], tank_dict["image"],tank_dict['original_width'], True)
+    tanks_save(tank_dict)
+
+def left(tank_dict):
+    tank_dict['angle'] = 270
+    tank_dict['speedx'] = -3
+    tank_dict['speedy'] = 0
+    rect_helper.rect_change(tank_dict['rect'], tank_dict['angle'] in [0, 180], tank_dict["image"],tank_dict['original_width'], True)
+    tanks_save(tank_dict)
+
+def down(tank_dict):
+    tank_dict['angle'] = 180
+    tank_dict['speedx'] = 0
+    tank_dict['speedy'] = 3
+    rect_helper.rect_change(tank_dict['rect'], tank_dict['angle'] in [0, 180], tank_dict["image"],tank_dict['original_width'], True)
+    tanks_save(tank_dict)
+
+def up(tank_dict):
+    tank_dict['angle'] = 0
+    tank_dict['speedx'] = 0
+    tank_dict['speedy'] = -3
+    rect_helper.rect_change(tank_dict['rect'], tank_dict['angle'] in [0, 180], tank_dict["image"],tank_dict['original_width'], True)
+    tanks_save(tank_dict)
 
 
 def metal_check(tank_dict):
@@ -85,9 +118,10 @@ def enemy_param_change(tank_dict,hp):
     else:
         tank_dict['can_break_metal'] = False
 
-def tank_check(tank_dict,bullet_rect):
+def tank_check(tank_dict,bullet_rect,tank_list):
     if tank_dict['rect'].colliderect(bullet_rect):
-        enemy_downgarde(tank_dict)
+
+        enemy_downgarde(tank_dict,tank_list)
         return True
 
 

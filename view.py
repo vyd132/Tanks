@@ -2,7 +2,8 @@ import random
 
 import pygame,model,block_helper,tank_helper
 
-
+for tanks in model.tanks:
+    tank_helper.tanks_save(tanks)
 
 # def bullet_change(bullet_dict):
 #     bullet= pygame.transform.rotate(bullet_dict["image"], -bullet_dict["angle"])
@@ -32,7 +33,7 @@ def view():
             screen.blit(bullet['image_view'], bullet['rect'])
         for tanks in model.tanks:
             tank_helper.view(tanks,screen)
-        # print(tank.get_size(), model.tank.size)
+
     if model.show_rects:
         for bullet in model.bullets:
             pygame.draw.rect(screen, [255, 255, 0], bullet["rect"], width=1)
@@ -51,4 +52,3 @@ bullet=pygame.image.load('sprites/battle_city_items/bullet.png')
 
 bullet_image=pygame.transform.scale(bullet,[6,8])
 
-tanks_save()

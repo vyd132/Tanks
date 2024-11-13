@@ -4,15 +4,32 @@ import pygame,rect_helper,block_helper,tank_helper
 
 import bullet_helper
 
+def tank_move():
+    for bullets_dict in  bullets:
+        shot=bullet_helper.bullet_fly(bullets_dict,rects,tanks)
+        if shot:
+            bullets.remove(bullets_dict)
 
-def tank_angle_and_move(angle2,speedx2,speedy2,tank_dict):
-    global angle,speedx,speedy,changes
-    tank_dict['angle'] = angle2
-    tank_dict['speedx'] = speedx2
-    tank_dict['speedy'] = speedy2
-    rect_helper.rect_change(tank_dict['rect'], tank_dict['angle'] in [0,180], tank_dict["image"], tank_dict['original_width'], True)
-    changes = True
-
+    for tank_dict in tanks:
+        tank_dict['rect'].x += tank_dict['speedx']
+        tank_dict['rect'].y += tank_dict['speedy']
+        tank_dict['speedx'] /= 1.1
+        tank_dict['speedy'] /= 1.1
+        for line in rects:
+            for rect in line['rects']:
+                if rect.colliderect(tank_dict['rect']):
+                    if tank_dict['rect'].left < rect.right and tank_dict['angle'] == 270:
+                        tank_dict['rect'].left = rect.right
+                        continue
+                    if tank_dict['rect'].right > rect.left and tank_dict['angle'] == 90:
+                        tank_dict['rect'].right = rect.left
+                        continue
+                    if tank_dict['rect'].top < rect.bottom and tank_dict['angle'] == 0:
+                        tank_dict['rect'].top = rect.bottom
+                        continue
+                    if tank_dict['rect'].bottom > rect.top and tank_dict['angle'] == 180:
+                        tank_dict['rect'].bottom = rect.top
+                        continue
 
 def map_create(karta):
     rects=[]
@@ -28,37 +45,13 @@ def map_create(karta):
     return rects
 
 
-def model(tank_dict):
-    global speedx,speedy,changes
-    changes=False
-    tank_dict['rect'].x+=tank_dict['speedx']
-    tank_dict['rect'].y+=tank_dict['speedy']
-    tank_dict['speedx'] = 0
-    tank_dict['speedy']=0
-    for bullets_dict in  bullets:
-        shot=bullet_helper.bullet_fly(bullets_dict,rects,tanks)
-        print(changes)
-        if shot:
-            bullets.remove(bullets_dict)
-    for line in rects:
-        for rect in line['rects']:
-            if rect.colliderect(tank_dict['rect']):
-                if tank_dict['rect'].left<rect.right and tank_dict['angle']==270:
-                    tank_dict['rect'].left=rect.right
-                    continue
-                if tank_dict['rect'].right > rect.left and tank_dict['angle']==90:
-                    tank_dict['rect'].right = rect.left
-                    continue
-                if tank_dict['rect'].top < rect.bottom and tank_dict['angle']==0:
-                    tank_dict['rect'].top = rect.bottom
-                    continue
-                if tank_dict['rect'].bottom > rect.top and tank_dict['angle'] == 180:
-                    tank_dict['rect'].bottom = rect.top
-                    continue
+
+
+
+
 
 show_rects=False
 show_image=True
-changes=True
 
 # Карта
 karta="""00011220
@@ -85,7 +78,6 @@ t3=tank_helper.tank_create(0,3,'enemy','yellow',map_size,1,3)
 t4=tank_helper.tank_create(1,7,'enemy','green',map_size,4,3)
 tanks=[t1,t2,t3,t4]
 bullets=[]
-
 
 
 
