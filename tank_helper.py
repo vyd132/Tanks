@@ -2,6 +2,8 @@ import pygame,rect_helper
 pygame.init()
 font=pygame.font.SysFont('arial',20,True)
 
+
+
 def tank_die(tank_list,tank_dict):
     tank_list.remove(tank_dict)
 

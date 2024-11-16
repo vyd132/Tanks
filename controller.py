@@ -1,8 +1,14 @@
-import pygame,model,bullet_helper,tank_helper
+import random
+
+import pygame,model,bullet_helper,tank_helper,animation_helper
+
+import view
 
 pygame.key.set_repeat(100)
 timer_move=pygame.event.custom_type()
 pygame.time.set_timer(timer_move,10)
+timer_anim=pygame.event.custom_type()
+pygame.time.set_timer(timer_anim,100)
 
 def event():
     events=pygame.event.get()
@@ -16,8 +22,16 @@ def event():
         if event.type == pygame.KEYDOWN and event.key == pygame.K_q:
             model.show_image=not model.show_image
 
+        if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
+            animation_helper.create(model.effects,random.randint(0,1000),random.randint(0,1000))
+
+
+        if event.type==timer_anim:
+            model.animation_change()
+
+
         if event.type==timer_move:
-            model.tank_move()
+            model.objects_move()
 
         if event.type == pygame.KEYDOWN and event.key == pygame.K_w:
             tank_helper.up(model.t1)

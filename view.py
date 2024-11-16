@@ -2,6 +2,8 @@ import random
 
 import pygame,model,block_helper,tank_helper
 
+import animation_helper
+
 for tanks in model.tanks:
     tank_helper.tanks_save(tanks)
 
@@ -28,7 +30,10 @@ def view():
             if model.show_rects:
 
                 pygame.draw.rect(screen,[255,0,0],block,width=1)
+
     if model.show_image:
+        for effect in model.effects:
+            animation_helper.view(effect,screen)
         for bullet in model.bullets:
             screen.blit(bullet['image_view'], bullet['rect'])
         for tanks in model.tanks:

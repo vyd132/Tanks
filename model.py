@@ -2,14 +2,14 @@ import random
 
 import pygame,rect_helper,block_helper,tank_helper
 
+import animation_helper
 import bullet_helper
 
-def tank_move():
+def objects_move():
     for bullets_dict in  bullets:
         shot=bullet_helper.bullet_fly(bullets_dict,rects,tanks)
         if shot:
             bullets.remove(bullets_dict)
-
     for tank_dict in tanks:
         tank_dict['rect'].x += tank_dict['speedx']
         tank_dict['rect'].y += tank_dict['speedy']
@@ -30,6 +30,10 @@ def tank_move():
                     if tank_dict['rect'].bottom > rect.top and tank_dict['angle'] == 180:
                         tank_dict['rect'].bottom = rect.top
                         continue
+
+def animation_change():
+    for effect_dict in effects:
+        animation_helper.anim_change(effect_dict)
 
 def map_create(karta):
     rects=[]
@@ -78,6 +82,7 @@ t3=tank_helper.tank_create(0,3,'enemy','yellow',map_size,1,3)
 t4=tank_helper.tank_create(1,7,'enemy','green',map_size,4,3)
 tanks=[t1,t2,t3,t4]
 bullets=[]
+effects=[]
 
 
 
