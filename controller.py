@@ -22,8 +22,8 @@ def event():
         if event.type == pygame.KEYDOWN and event.key == pygame.K_q:
             model.show_image=not model.show_image
 
-        if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
-            animation_helper.create(model.effects,random.randint(0,1000),random.randint(0,1000))
+        # if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
+        #     animation_helper.create(model.effects,random.randint(0,1000),random.randint(0,1000))
 
 
         if event.type==timer_anim:

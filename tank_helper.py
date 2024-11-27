@@ -1,10 +1,14 @@
 import pygame,rect_helper
+
+import messenger
+
 pygame.init()
 font=pygame.font.SysFont('arial',20,True)
 
 
 
 def tank_die(tank_list,tank_dict):
+    messenger.broadcast('tank_died',tank_dict)
     tank_list.remove(tank_dict)
 
 
@@ -122,7 +126,6 @@ def enemy_param_change(tank_dict,hp):
 
 def tank_check(tank_dict,bullet_rect,tank_list):
     if tank_dict['rect'].colliderect(bullet_rect):
-
         enemy_downgarde(tank_dict,tank_list)
         return True
 

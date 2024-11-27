@@ -4,6 +4,8 @@ import pygame,rect_helper,block_helper,tank_helper
 
 import animation_helper
 import bullet_helper
+import messenger
+
 
 def objects_move():
     for bullets_dict in  bullets:
@@ -33,7 +35,7 @@ def objects_move():
 
 def animation_change():
     for effect_dict in effects:
-        animation_helper.anim_change(effect_dict)
+        animation_helper.anim_change(effect_dict,effects,5)
 
 def map_create(karta):
     rects=[]
@@ -48,7 +50,8 @@ def map_create(karta):
             rects.append(brick)
     return rects
 
-
+def reaction(type_mes,who,addons):
+    animation_helper.create(effects,who['rect'].centerx,who['rect'].centery)
 
 
 
@@ -73,6 +76,8 @@ map_size=len(karta.split('\n'))
 rects=map_create(karta)
 
 
+animation_helper.image_create(map_size)
+messenger.add_subs(reaction)
 
 
 # Подоготовка танка
