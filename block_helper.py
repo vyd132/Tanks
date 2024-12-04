@@ -1,5 +1,6 @@
 import pygame
 
+import messenger
 import tank_helper
 
 small_block_count=2
@@ -17,6 +18,8 @@ def block_check(block_dict,bullet_rect,can_break_metal):
         if collide:
             if block_dict['type']==BLOCK_TYPE_BRICK or (block_dict['type']==BLOCK_TYPE_STEEL and can_break_metal):
                 block_dict['rects'].remove(block_rect)
+            else:
+                messenger.broadcast('steel not breaked',block_dict,bullet_rect)
             return True
 
 

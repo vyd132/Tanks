@@ -8,7 +8,7 @@ font=pygame.font.SysFont('arial',20,True)
 
 
 def tank_die(tank_list,tank_dict):
-    messenger.broadcast('tank_died',tank_dict)
+    messenger.broadcast('tank_died',tank_dict,tank_dict['type'])
     tank_list.remove(tank_dict)
 
 

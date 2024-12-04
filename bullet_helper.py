@@ -1,5 +1,6 @@
 import pygame,rect_helper,block_helper
 
+import messenger
 import tank_helper
 
 bullet_image=pygame.image.load('sprites/battle_city_items/bullet.png')
@@ -58,3 +59,4 @@ def bullet_spawn(tank_dict,block_count,bullet_list):
     bullet = pygame.transform.rotate(bullet_dict["image"], -bullet_dict["angle"])
     bullet = pygame.transform.scale(bullet, bullet_dict["rect"].size)
     bullet_dict['image_view'] = bullet
+    messenger.broadcast('bullet_spawn',bullet_dict)

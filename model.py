@@ -5,6 +5,7 @@ import pygame,rect_helper,block_helper,tank_helper
 import animation_helper
 import bullet_helper
 import messenger
+import sounds
 
 
 def objects_move():
@@ -35,7 +36,7 @@ def objects_move():
 
 def animation_change():
     for effect_dict in effects:
-        animation_helper.anim_change(effect_dict,effects,5)
+        animation_helper.anim_change(effect_dict,effects)
 
 def map_create(karta):
     rects=[]
@@ -50,8 +51,11 @@ def map_create(karta):
             rects.append(brick)
     return rects
 
-def reaction(type_mes,who,addons):
-    animation_helper.create(effects,who['rect'].centerx,who['rect'].centery)
+def tank_kill(type_mes, who, addons):
+    if type_mes=='tank_died':
+        animation_helper.create(effects,who['rect'].centerx,who['rect'].centery,anim_list_dict_big,3)
+    if type_mes=='steel not breaked':
+        animation_helper.create(effects,addons.centerx,addons.centery,anim_list_dict_small,1)
 
 
 
@@ -76,8 +80,13 @@ map_size=len(karta.split('\n'))
 rects=map_create(karta)
 
 
-animation_helper.image_create(map_size)
-messenger.add_subs(reaction)
+anim_list_dict_big = []
+anim_list_dict_small = []
+
+animation_helper.image_create(map_size,700,anim_list_dict_big)
+animation_helper.image_create(map_size,200,anim_list_dict_small)
+messenger.add_subs(tank_kill)
+
 
 
 # Подоготовка танка
