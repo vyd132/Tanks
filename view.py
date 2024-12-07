@@ -4,21 +4,6 @@ import pygame,model,block_helper,tank_helper
 
 import animation_helper
 
-for tanks in model.tanks:
-    tank_helper.tanks_save(tanks)
-
-# def bullet_change(bullet_dict):
-#     bullet= pygame.transform.rotate(bullet_dict["image"], -bullet_dict["angle"])
-#     bullet = pygame.transform.scale(bullet, bullet_dict["rect"].size)
-#     return bullet
-#
-# def bullet_save():
-#     for bullets in model.bullets:
-#         if 'image_view' in bullets:
-#             continue
-#         bullet_new = bullet_change(bullets)
-#         bullets['image_view'] = bullet_new
-
 def view():
     global screen,brick,steel,tank,tank2
     screen.fill([0, 0, 0])

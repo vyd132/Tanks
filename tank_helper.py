@@ -43,37 +43,52 @@ def player_lvl_change(tank_dict):
     else:
         tank_dict['can_break_metal'] = False
     tank_dict["image"] = pygame.image.load(tank_dict['costumes'][tank_dict['lvl']])
-    rect_helper.rect_change(tank_dict['rect'], tank_dict['angle'] in [0, 180], tank_dict["image"],
-                            tank_dict['original_width'], True)
+    _tank_rect_change(tank_dict,False)
 
 
 def right(tank_dict):
     tank_dict['angle'] = 90
     tank_dict['speedx'] = 3
     tank_dict['speedy'] = 0
-    rect_helper.rect_change(tank_dict['rect'], tank_dict['angle'] in [0, 180], tank_dict["image"],tank_dict['original_width'], True)
-    tanks_save(tank_dict)
+    _tank_rect_change(tank_dict,True)
 
 def left(tank_dict):
     tank_dict['angle'] = 270
     tank_dict['speedx'] = -3
     tank_dict['speedy'] = 0
-    rect_helper.rect_change(tank_dict['rect'], tank_dict['angle'] in [0, 180], tank_dict["image"],tank_dict['original_width'], True)
-    tanks_save(tank_dict)
+    _tank_rect_change(tank_dict,True)
 
 def down(tank_dict):
     tank_dict['angle'] = 180
     tank_dict['speedx'] = 0
     tank_dict['speedy'] = 3
-    rect_helper.rect_change(tank_dict['rect'], tank_dict['angle'] in [0, 180], tank_dict["image"],tank_dict['original_width'], True)
-    tanks_save(tank_dict)
+    _tank_rect_change(tank_dict,True)
 
 def up(tank_dict):
     tank_dict['angle'] = 0
     tank_dict['speedx'] = 0
     tank_dict['speedy'] = -3
-    rect_helper.rect_change(tank_dict['rect'], tank_dict['angle'] in [0, 180], tank_dict["image"],tank_dict['original_width'], True)
-    tanks_save(tank_dict)
+    _tank_rect_change(tank_dict,True)
+
+
+def _tank_rect_change(tank_dict,do_tank_save):
+    rect_helper.rect_change(tank_dict['rect'], tank_dict['angle'] in [0, 180], tank_dict["image"],
+                            tank_dict['original_width'], True)
+    if do_tank_save:
+        tanks_save(tank_dict)
+
+
+def pos_change(x,y,tank_dict):
+    tank_dict['rect'].centerx = (1000 / tank_dict['block_col']) * x + (1000 / tank_dict['block_col']) / 2
+    tank_dict['rect'].centery = 1000 / tank_dict['block_col'] * y + (1000 / tank_dict['block_col']) / 2
+
+
+def angle_change(tank_dict,angle):
+    tank_dict['angle'] = angle
+    _tank_rect_change(tank_dict, True)
+
+def bullets_clear(tank_dict):
+    tank_dict['my_bullets']=0
 
 
 def metal_check(tank_dict):
@@ -150,7 +165,8 @@ def tank_create(x,y,type,color,map_size,hp,lvl):
         'type':type,
         'lvl':lvl,
         'original_width':500 / map_size,
-        'can_break_metal':False
+        'can_break_metal':False,
+        'block_col':map_size
     }
     t1['costumes'] = costume_list_gen(type, t1['color'])
     t1['image']= pygame.image.load(t1['costumes'][t1['lvl']])
@@ -158,8 +174,7 @@ def tank_create(x,y,type,color,map_size,hp,lvl):
     enemy_param_change(t1,hp)
     hp_change_costume(t1)
     player_lvl_change(t1)
-    rect_helper.rect_change(t1['rect'], t1['angle'] == 0, t1['image'], t1['original_width'], True)
-    tank.centerx = (1000 / map_size) * x + (1000 / map_size) / 2
-    tank.centery = 1000 / map_size * y + (1000 / map_size) / 2
+    _tank_rect_change(t1,True)
+    pos_change(x,y,t1)
     return t1
 

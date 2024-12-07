@@ -2,6 +2,7 @@ import random
 
 import pygame,model,bullet_helper,tank_helper,animation_helper
 
+import levels
 import view
 
 pygame.key.set_repeat(100)
@@ -32,6 +33,11 @@ def event():
 
         if event.type==timer_move:
             model.objects_move()
+
+        if event.type == pygame.KEYDOWN and event.key == pygame.K_1:
+            levels.level_change(1)
+        if event.type == pygame.KEYDOWN and event.key == pygame.K_2:
+            levels.level_change(2)
 
         if event.type == pygame.KEYDOWN and event.key == pygame.K_w:
             tank_helper.up(model.t1)

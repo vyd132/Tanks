@@ -4,6 +4,7 @@ import pygame,rect_helper,block_helper,tank_helper
 
 import animation_helper
 import bullet_helper
+import levels
 import messenger
 import sounds
 
@@ -51,11 +52,20 @@ def map_create(karta):
             rects.append(brick)
     return rects
 
-def tank_kill(type_mes, who, addons):
+def model_messeges(type_mes, who, addons):
+    global rects
     if type_mes=='tank_died':
         animation_helper.create(effects,who['rect'].centerx,who['rect'].centery,anim_list_dict_big,3)
     if type_mes=='steel not breaked':
         animation_helper.create(effects,addons.centerx,addons.centery,anim_list_dict_small,1)
+    if type_mes=='level_changed':
+        rects=map_create(who['map'])
+        tank_helper.pos_change(who['x'],who['y'],t1)
+        tank_helper.angle_change(t1,who['t_angle'])
+        bullets.clear()
+        effects.clear()
+        tank_helper.bullets_clear(t1)
+
 
 
 
@@ -85,7 +95,7 @@ anim_list_dict_small = []
 
 animation_helper.image_create(map_size,700,anim_list_dict_big)
 animation_helper.image_create(map_size,200,anim_list_dict_small)
-messenger.add_subs(tank_kill)
+messenger.add_subs(model_messeges)
 
 
 
@@ -98,5 +108,5 @@ tanks=[t1,t2,t3,t4]
 bullets=[]
 effects=[]
 
-
+levels.level_change(1)
 
