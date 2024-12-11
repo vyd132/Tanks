@@ -91,6 +91,10 @@ def bullets_clear(tank_dict):
     tank_dict['my_bullets']=0
 
 
+def tank_timer(timer,lvl_time):
+    pygame.time.set_timer(timer, lvl_time)
+
+
 def metal_check(tank_dict):
     return tank_dict['can_break_metal']
 

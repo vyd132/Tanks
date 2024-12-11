@@ -65,9 +65,27 @@ def model_messeges(type_mes, who, addons):
         bullets.clear()
         effects.clear()
         tank_helper.bullets_clear(t1)
+        for lvl_dict in who['enemy_pos']:
+            timer_spawn = pygame.event.custom_type()
+            pygame.time.set_timer(timer_spawn,lvl_dict['time'])
+            lvl_dict['custom_type']=timer_spawn
+        tanks.clear()
+        tanks.append(t1)
 
 
+def search_type(type,lvl):
+    for lvl_dict in lvl['enemy_pos']:
+        if lvl_dict['custom_type']==type:
+            return lvl_dict
 
+
+def enemy_spawn(type):
+    level_dict=search_type(type,levels.levels_list[levels.current_level-1])
+    if level_dict is None:
+        return
+    new_tank=tank_helper.tank_create(level_dict['x'],level_dict['y'],'enemy','white',map_size,3,3)
+    new_tank['do_move']=True
+    tanks.append(new_tank)
 
 
 

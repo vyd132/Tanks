@@ -10,6 +10,8 @@ timer_move=pygame.event.custom_type()
 pygame.time.set_timer(timer_move,10)
 timer_anim=pygame.event.custom_type()
 pygame.time.set_timer(timer_anim,100)
+timer_spawn=pygame.event.custom_type()
+tank_helper.tank_timer(timer_spawn,1000)
 
 def event():
     events=pygame.event.get()
@@ -33,6 +35,9 @@ def event():
 
         if event.type==timer_move:
             model.objects_move()
+
+        model.enemy_spawn(event.type)
+
 
         if event.type == pygame.KEYDOWN and event.key == pygame.K_1:
             levels.level_change(1)
