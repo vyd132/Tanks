@@ -14,6 +14,24 @@ def objects_move():
         shot=bullet_helper.bullet_fly(bullets_dict,rects,tanks)
         if shot:
             bullets.remove(bullets_dict)
+
+    for tank_dict in tanks:
+        if tank_dict['type']!='enemy':
+            continue
+        task=tank_dict['task']
+        if not task['action']:
+            task['range']=random.randint(5,20)
+            task['action']=True
+            task['start_x'] = tank_dict['rect'].centerx
+            task['start_y'] = tank_dict['rect'].centery
+        task_move_check=tank_helper.cord_check(tank_dict,task['range'],True)
+        if task_move_check:
+            task['action']=False
+            task['type']='wait'
+            print('finish')
+            continue
+        tank_helper.right(tank_dict,speed=2)
+
     for tank_dict in tanks:
         tank_dict['rect'].x += tank_dict['speedx']
         tank_dict['rect'].y += tank_dict['speedy']
