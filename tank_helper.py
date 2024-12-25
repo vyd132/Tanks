@@ -46,37 +46,30 @@ def player_lvl_change(tank_dict):
     _tank_rect_change(tank_dict,False)
 
 
-def right(tank_dict,speed=3):
+def right(tank_dict):
     tank_dict['angle'] = 90
-    tank_dict['speedx'] = speed
+    tank_dict['speedx'] = tank_dict['speed']
     tank_dict['speedy'] = 0
     _tank_rect_change(tank_dict,True)
 
-def left(tank_dict,speed=3):
+def left(tank_dict):
     tank_dict['angle'] = 270
-    tank_dict['speedx'] = -speed
+    tank_dict['speedx'] = -tank_dict['speed']
     tank_dict['speedy'] = 0
     _tank_rect_change(tank_dict,True)
 
-def down(tank_dict,speed=3):
+def down(tank_dict):
     tank_dict['angle'] = 180
     tank_dict['speedx'] = 0
-    tank_dict['speedy'] = speed
+    tank_dict['speedy'] = tank_dict['speed']
     _tank_rect_change(tank_dict,True)
 
-def up(tank_dict,speed=3):
+def up(tank_dict):
     tank_dict['angle'] = 0
     tank_dict['speedx'] = 0
-    tank_dict['speedy'] = -speed
+    tank_dict['speedy'] = -tank_dict['speed']
     _tank_rect_change(tank_dict,True)
 
-def cord_check(tank_dict,range,line):
-    if line:
-        if tank_dict['rect'].centerx==tank_dict['task']['start_x']+range:
-            return True
-    else:
-        if tank_dict['rect'].centery==tank_dict['task']['start_y']+range:
-            return True
 
 
 
@@ -172,6 +165,7 @@ def tank_create(x,y,type,color,map_size,hp,lvl):
         'angle': 0,
         "speedx": 0,
         "speedy": 0,
+        'speed':3,
         'bullet_speed': 2,
         'bullets_limit':1,
         'my_bullets':0,
@@ -181,8 +175,8 @@ def tank_create(x,y,type,color,map_size,hp,lvl):
         'original_width':500 / map_size,
         'can_break_metal':False,
         'block_col':map_size,
-        'task':{'action':False
-                }
+        'task':{'action':False,
+                'action_type':'move'}
     }
     t1['costumes'] = costume_list_gen(type, t1['color'])
     t1['image']= pygame.image.load(t1['costumes'][t1['lvl']])

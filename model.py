@@ -7,6 +7,7 @@ import bullet_helper
 import levels
 import messenger
 import sounds
+import tank_ai
 
 
 def objects_move():
@@ -16,21 +17,8 @@ def objects_move():
             bullets.remove(bullets_dict)
 
     for tank_dict in tanks:
-        if tank_dict['type']!='enemy':
-            continue
-        task=tank_dict['task']
-        if not task['action']:
-            task['range']=random.randint(5,20)
-            task['action']=True
-            task['start_x'] = tank_dict['rect'].centerx
-            task['start_y'] = tank_dict['rect'].centery
-        task_move_check=tank_helper.cord_check(tank_dict,task['range'],True)
-        if task_move_check:
-            task['action']=False
-            task['type']='wait'
-            print('finish')
-            continue
-        tank_helper.right(tank_dict,speed=2)
+        tank_ai.comands(tank_dict)
+
 
     for tank_dict in tanks:
         tank_dict['rect'].x += tank_dict['speedx']
@@ -102,7 +90,6 @@ def enemy_spawn(type):
     if level_dict is None:
         return
     new_tank=tank_helper.tank_create(level_dict['x'],level_dict['y'],'enemy','white',map_size,3,3)
-    new_tank['do_move']=True
     tanks.append(new_tank)
 
 
