@@ -7,7 +7,6 @@ def image_create(map_size,size,anim_list_new):
     for i in anim_list:
         effect = pygame.image.load(i)
         effect = pygame.transform.scale(effect, [size/map_size, size/map_size])
-        print(1)
         anim_list_new.append(effect)
 
 def create(effect_list,x,y,list,loops):

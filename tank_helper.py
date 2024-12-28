@@ -1,6 +1,7 @@
 import pygame,rect_helper
 
 import messenger
+import tank_ai
 
 pygame.init()
 font=pygame.font.SysFont('arial',20,True)
@@ -118,6 +119,40 @@ def debug_view(tank_dict,surface):
     surface.blit(text,[tank_dict['rect'].x,tank_dict['rect'].y])
     text = font.render('hp: ' + str(tank_dict['hp']), True, [255, 0, 0])
     surface.blit(text, [tank_dict['rect'].x, tank_dict['rect'].centery])
+    if 'task' in tank_dict:
+        text = font.render('action: ' + str(tank_dict['task']['action_type']), True, [0, 0,255],[0,0,0])
+        surface.blit(text, [tank_dict['rect'].x, tank_dict['rect'].y+20])
+
+
+def tank_move(tank_dict,rects):
+    tank_dict['rect'].x += tank_dict['speedx']
+    tank_dict['rect'].y += tank_dict['speedy']
+    tank_dict['speedx'] /= 1.1
+    tank_dict['speedy'] /= 1.1
+    for rect in rects:
+        if rect.colliderect(tank_dict['rect']):
+            if rect is tank_dict['rect']:
+                continue
+            if tank_dict['type']=='enemy' and tank_dict['task']['action_type']=='move' :
+                print('work')
+                tank_ai.wall_change(tank_dict)
+            if tank_dict['rect'].left < rect.right and tank_dict['angle'] == 270:
+                tank_dict['rect'].left = rect.right
+                continue
+            if tank_dict['rect'].right > rect.left and tank_dict['angle'] == 90:
+                tank_dict['rect'].right = rect.left
+                continue
+            if tank_dict['rect'].top < rect.bottom and tank_dict['angle'] == 0:
+                tank_dict['rect'].top = rect.bottom
+                continue
+            if tank_dict['rect'].bottom > rect.top and tank_dict['angle'] == 180:
+                tank_dict['rect'].bottom = rect.top
+                continue
+
+
+
+
+
 
 def hp_change_costume(tank_dict):
     if tank_dict['type']=='player':
@@ -140,6 +175,8 @@ def costume_list_gen(type,color):
 def enemy_param_change(tank_dict,hp):
     if tank_dict['type']=='player':
         return
+    tank_dict['task']={'action':False,
+                'action_type':'move'}
     tank_dict['hp']=hp
     if tank_dict['lvl']==3:
         tank_dict['can_break_metal']=True
@@ -175,8 +212,6 @@ def tank_create(x,y,type,color,map_size,hp,lvl):
         'original_width':500 / map_size,
         'can_break_metal':False,
         'block_col':map_size,
-        'task':{'action':False,
-                'action_type':'move'}
     }
     t1['costumes'] = costume_list_gen(type, t1['color'])
     t1['image']= pygame.image.load(t1['costumes'][t1['lvl']])

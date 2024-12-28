@@ -18,28 +18,15 @@ def objects_move():
 
     for tank_dict in tanks:
         tank_ai.comands(tank_dict)
-
+    all_rects=[]
+    all_rects.append(t1['rect'])
+    for block in rects:
+        for rect in block['rects']:
+            all_rects.append(rect)
 
     for tank_dict in tanks:
-        tank_dict['rect'].x += tank_dict['speedx']
-        tank_dict['rect'].y += tank_dict['speedy']
-        tank_dict['speedx'] /= 1.1
-        tank_dict['speedy'] /= 1.1
-        for line in rects:
-            for rect in line['rects']:
-                if rect.colliderect(tank_dict['rect']):
-                    if tank_dict['rect'].left < rect.right and tank_dict['angle'] == 270:
-                        tank_dict['rect'].left = rect.right
-                        continue
-                    if tank_dict['rect'].right > rect.left and tank_dict['angle'] == 90:
-                        tank_dict['rect'].right = rect.left
-                        continue
-                    if tank_dict['rect'].top < rect.bottom and tank_dict['angle'] == 0:
-                        tank_dict['rect'].top = rect.bottom
-                        continue
-                    if tank_dict['rect'].bottom > rect.top and tank_dict['angle'] == 180:
-                        tank_dict['rect'].bottom = rect.top
-                        continue
+        tank_helper.tank_move(tank_dict,all_rects)
+
 
 def animation_change():
     for effect_dict in effects:
@@ -125,9 +112,8 @@ messenger.add_subs(model_messeges)
 # Подоготовка танка
 t1=tank_helper.tank_create(0,0,'player','purple',map_size,18,2)
 t2=tank_helper.tank_create(5,4,'player','yellow',map_size,2,0)
-t3=tank_helper.tank_create(0,3,'enemy','yellow',map_size,1,3)
-t4=tank_helper.tank_create(1,7,'enemy','green',map_size,4,3)
-tanks=[t1,t2,t3,t4]
+
+tanks=[t1,t2]
 bullets=[]
 effects=[]
 
