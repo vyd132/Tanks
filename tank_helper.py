@@ -129,13 +129,24 @@ def tank_move(tank_dict,rects):
     tank_dict['rect'].y += tank_dict['speedy']
     tank_dict['speedx'] /= 1.1
     tank_dict['speedy'] /= 1.1
+    if tank_dict['rect'].left<0:
+        tank_dict['rect'].left=0
+        tank_ai.wall_change(tank_dict)
+    if tank_dict['rect'].top<0:
+        tank_dict['rect'].top=0
+        tank_ai.wall_change(tank_dict)
+    if tank_dict['rect'].right>1000:
+        tank_dict['rect'].right=1000
+        tank_ai.wall_change(tank_dict)
+    if tank_dict['rect'].bottom>1000:
+        tank_dict['rect'].bottom=1000
+        tank_ai.wall_change(tank_dict)
     for rect in rects:
         if rect.colliderect(tank_dict['rect']):
             if rect is tank_dict['rect']:
                 continue
-            if tank_dict['type']=='enemy' and tank_dict['task']['action_type']=='move' :
-                print('work')
-                tank_ai.wall_change(tank_dict)
+            # print('work')
+            tank_ai.wall_change(tank_dict)
             if tank_dict['rect'].left < rect.right and tank_dict['angle'] == 270:
                 tank_dict['rect'].left = rect.right
                 continue

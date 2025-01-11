@@ -12,7 +12,6 @@ def comands(tank_dict):
     if tank_dict['type'] != 'enemy':
         return
     task = tank_dict['task']
-
     if not task['action'] and task['action_type'] == 'move':
         task['range'] = random.randint(100, 100)
         task['action'] = True
@@ -44,8 +43,9 @@ def cord_check(tank_dict,range):
         return tank_dict['rect'].centery>=tank_dict['task']['start_y']+range
 
 def wall_change(tank_dict):
-    tank_dict['task']['action'] = False
-    tank_dict['task']['action_type'] = 'wait'
+    if 'task' in tank_dict and tank_dict['task']['action_type']=='move':# and tank_dict['task']['action']:
+        tank_dict['task']['action'] = False
+        tank_dict['task']['action_type'] = 'wait'
 
 
 
