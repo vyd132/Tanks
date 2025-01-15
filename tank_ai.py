@@ -1,53 +1,39 @@
 import time
 
 import pygame,tank_helper,random
+from tasks import task_move,task_wait,task_fire
 
-def tank_wait_check(tank_dict):
-    timer=time.time()
-    if timer>=tank_dict['task']['timer']:
-        tank_dict['task']['action'] = False
-        tank_dict['task']['action_type'] = 'move'
+
 
 def comands(tank_dict):
     if tank_dict['type'] != 'enemy':
         return
     task = tank_dict['task']
-    if not task['action'] and task['action_type'] == 'move':
-        task['range'] = random.randint(100, 100)
-        task['action'] = True
-        task['start_x'] = tank_dict['rect'].centerx
-        task['start_y'] = tank_dict['rect'].centery
-        task['turn']=random.choice(['right','left','up','down'])
-    elif not task['action'] and task['action_type'] == 'wait':
-        task['timer']=time.time()+random.randint(1,6)
-        task['action'] = True
     if task['action_type'] == 'move':
-        task_move_check = cord_check(tank_dict, task['range'])
+        task_move_check = task_move.action_check(tank_dict, task['range'])
         if task_move_check:
-            task['action'] = False
-            task['action_type'] = 'wait'
+            random_task(task,tank_dict)
             return
-        name=getattr(tank_helper,task['turn'])
-        name(tank_dict)
+        task_move.action_do(task,tank_dict)
     if task['action_type'] == 'wait':
-        tank_wait_check(tank_dict)
+        if task_wait.action_check(tank_dict):
+            task_move.action_create(task,tank_dict)
+            return
+    if task['action_type'] == 'fire':
+        if task_fire.action_check(tank_dict):
+            random_task(task,tank_dict)
+            return
+        task_fire.action_do(tank_dict)
 
-def cord_check(tank_dict,range):
-    if tank_dict['task']['turn']=='right':
-         return tank_dict['rect'].centerx>=tank_dict['task']['start_x']+range
-    elif tank_dict['task']['turn']=='left':
-        return tank_dict['rect'].centerx<=tank_dict['task']['start_x']-range
-    if tank_dict['task']['turn']=='up':
-        return tank_dict['rect'].centery<=tank_dict['task']['start_y']-range
-    elif tank_dict['task']['turn']=='down':
-        return tank_dict['rect'].centery>=tank_dict['task']['start_y']+range
 
-def wall_change(tank_dict):
+
+def move_stop(tank_dict):
     if 'task' in tank_dict and tank_dict['task']['action_type']=='move':# and tank_dict['task']['action']:
-        tank_dict['task']['action'] = False
-        tank_dict['task']['action_type'] = 'wait'
+        task_wait.action_create(tank_dict['task'],tank_dict)
 
-
+def random_task(task,tank_dict):
+    module=random.choice([task_wait,task_move,task_fire])
+    module.action_create(task,tank_dict)
 
 
 

@@ -8,7 +8,7 @@ import levels
 import messenger
 import sounds
 import tank_ai
-
+from tasks import task_move,task_wait
 
 def objects_move():
     for bullets_dict in  bullets:
@@ -77,6 +77,7 @@ def enemy_spawn(type):
     if level_dict is None:
         return
     new_tank=tank_helper.tank_create(level_dict['x'],level_dict['y'],'enemy','white',map_size,3,3)
+    task_wait.action_create(new_tank['task'],new_tank)
     tanks.append(new_tank)
 
 
