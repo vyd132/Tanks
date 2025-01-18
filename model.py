@@ -18,13 +18,17 @@ def objects_move():
 
     for tank_dict in tanks:
         tank_ai.comands(tank_dict)
-    all_rects=[]
-    all_rects.append(t1['rect'])
+    block_rects=[]
     for block in rects:
         for rect in block['rects']:
-            all_rects.append(rect)
+            block_rects.append(rect)
 
     for tank_dict in tanks:
+        all_rects=[]
+        for tank in tanks:
+            if not tank_dict['rect'].colliderect(tank['rect']):
+                all_rects.append(tank['rect'])
+        all_rects+=block_rects
         tank_helper.tank_move(tank_dict,all_rects)
 
 
@@ -98,7 +102,7 @@ karta="""00011220
 # 002
 # 100"""
 map_size=len(karta.split('\n'))
-rects=map_create(karta)
+
 
 
 anim_list_dict_big = []

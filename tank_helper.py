@@ -189,6 +189,7 @@ def enemy_param_change(tank_dict,hp):
     tank_dict['task']={'action':False,
                 'action_type':'move'}
     tank_dict['hp']=hp
+    tank_dict['speed']=2
     if tank_dict['lvl']==3:
         tank_dict['can_break_metal']=True
     else:

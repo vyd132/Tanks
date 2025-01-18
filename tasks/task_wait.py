@@ -7,7 +7,7 @@ def action_check(tank_dict):
 
 
 def action_create(task,tank_dict):
-    task['timer'] = time.time() + random.randint(0.5, 2)
+    task['timer'] = time.time() + random.randint(1, 4)/2
     task['action_type'] = 'wait'
 
 
