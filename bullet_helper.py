@@ -20,9 +20,9 @@ def bullet_fly(bullets_dict,block_list,tank_list):
         if collide: break
         if tank_dict is bullets_dict['tank_dict']:
             continue
-        collide=tank_helper.tank_check(tank_dict,bullets_dict['rect'],tank_list)
-    if collide:
 
+        collide=tank_helper.tank_check(tank_dict,bullets_dict['rect'],tank_list,bullets_dict['tank_dict'])
+    if collide:
         bullets_dict['tank_dict']['my_bullets']-=1
         return True
 

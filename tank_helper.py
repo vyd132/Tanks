@@ -195,8 +195,8 @@ def enemy_param_change(tank_dict,hp):
     else:
         tank_dict['can_break_metal'] = False
 
-def tank_check(tank_dict,bullet_rect,tank_list):
-    if tank_dict['rect'].colliderect(bullet_rect):
+def tank_check(tank_dict,bullet_rect,tank_list,bullet_tank_dict):
+    if tank_dict['rect'].colliderect(bullet_rect) and bullet_tank_dict['type']!=tank_dict['type']:
         enemy_downgarde(tank_dict,tank_list)
         return True
 

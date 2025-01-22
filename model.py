@@ -66,6 +66,10 @@ def model_messeges(type_mes, who, addons):
             timer_spawn = pygame.event.custom_type()
             pygame.time.set_timer(timer_spawn,lvl_dict['time'])
             lvl_dict['custom_type']=timer_spawn
+
+            timer_wave = pygame.event.custom_type()
+            pygame.time.set_timer(timer_wave, lvl_dict['sleep'],1)
+            lvl_dict['custom_type_wave'] = timer_wave
         tanks.clear()
         tanks.append(t1)
 
@@ -75,12 +79,22 @@ def search_type(type,lvl):
         if lvl_dict['custom_type']==type:
             return lvl_dict
 
+def search_type_wave(type,lvl):
+    for lvl_dict in lvl['enemy_pos']:
+        if lvl_dict['custom_type_wave']==type:
+            lvl_dict['wave_start']=True
+
+
 
 def enemy_spawn(type):
-    level_dict=search_type(type,levels.levels_list[levels.current_level-1])
-    if level_dict is None:
+    search_type_wave(type, levels.levels_list[levels.current_level - 1])
+    tank_level_dict=search_type(type,levels.levels_list[levels.current_level-1])
+    if tank_level_dict is None:
         return
-    new_tank=tank_helper.tank_create(level_dict['x'],level_dict['y'],'enemy','white',map_size,3,3)
+    if tank_level_dict['wave_start']!=True or len(tank_level_dict['tanks_list'])==0:
+        return
+    new_tank=tank_helper.tank_create(tank_level_dict['x'],tank_level_dict['y'],'enemy','white',map_size,3,tank_level_dict['tanks_list'][0])
+    del tank_level_dict['tanks_list'][0]
     task_wait.action_create(new_tank['task'],new_tank)
     tanks.append(new_tank)
 
