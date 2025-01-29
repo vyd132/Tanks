@@ -4,7 +4,7 @@ import time
 import pygame,model,bullet_helper,tank_helper,animation_helper
 
 import levels
-import view
+import view_game
 
 pygame.key.set_repeat(100)
 timer_move=pygame.event.custom_type()

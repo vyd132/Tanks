@@ -138,3 +138,4 @@ effects=[]
 
 levels.level_change(1)
 
+active_screen='main'

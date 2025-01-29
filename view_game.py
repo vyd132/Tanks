@@ -1,6 +1,6 @@
 import random
 
-import pygame,model,block_helper,tank_helper
+import pygame,model,block_helper,tank_helper,view_main
 
 import animation_helper
 
@@ -33,8 +33,7 @@ def view():
 
 
 
-pygame.init()
-screen=pygame.display.set_mode([1000,1000])
+
 
 brick=pygame.image.load('sprites/battle_city_items/block_brick.png')
 steel=pygame.image.load('sprites/battle_city_items/block_steel.png')
