@@ -1,4 +1,4 @@
-import pygame,pygame_gui,model_main_menu
+import pygame,pygame_gui,model_main_menu,model
 from model_main_menu import mananger
 
 def event():
@@ -7,7 +7,7 @@ def event():
         if event.type==pygame.QUIT:
             exit()
         if event.type == pygame_gui.UI_BUTTON_PRESSED and event.ui_element == model_main_menu.button_play:
-            print('work')
+            model.active_screen='levels'
         if event.type == pygame_gui.UI_BUTTON_PRESSED and event.ui_element == model_main_menu.button_exit:
             exit()
         mananger.process_events(event)

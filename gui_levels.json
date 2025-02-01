@@ -1,0 +1,26 @@
+{
+  "#level_1":
+
+  {"images":
+    {"normal_image":
+    {
+      "path": "levels_images/level1_inactive.png"
+
+    },
+      "hovered_image":
+      {
+        "path": "levels_images/level1.png"
+      },
+      "selected_image":{
+        "path": "levels_images/level1.png"
+      }
+    },
+
+   "colours":
+   {"normal_border": "#FFFFFF"
+   },
+    "misc":{
+      "border_width": "10"
+    }
+  }
+}

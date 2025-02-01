@@ -1,6 +1,7 @@
 import random
 
 import pygame,model,block_helper,tank_helper,view_main
+from view_main import screen
 
 import animation_helper
 

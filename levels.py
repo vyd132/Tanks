@@ -13,7 +13,7 @@ level1={'map':"""00011220
         'x':0,
         'y':0,
         't_angle':180,
-        'enemy_pos':[{'x':0,"y":7,'time':5000,'sleep':3000,'wave_start':False},
+        'enemy_pos':[{'x':0,"y":7,'time':5000,'tanks_list':[],'sleep':3000,'wave_start':False},
                      # {'x':7,"y":7,'time':2000},{'x':2,"y":7,'time':3000}]
         ]
         }

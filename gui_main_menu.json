@@ -1,0 +1,20 @@
+{
+  "@my_buttons":
+    {"font":
+      {"name": "hooge 05_55","size": "50"},
+    "colours":
+       {
+           "normal_bg": "#000000",
+           "hovered_bg": "#000000",
+           "disabled_bg": "#000000",
+           "selected_bg": "#000000",
+           "active_bg": "#000000",
+           "normal_border": "#000000",
+           "hovered_border": "#000000",
+           "disabled_border": "#000000",
+           "selected_border": "#000000",
+           "active_border": "#000000",
+           "active_text": "#6d736f"
+       }
+    }
+}

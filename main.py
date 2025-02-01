@@ -1,6 +1,6 @@
 import view_main
-import controller_main_menu
-import model,view_game,controller_game,time
+import controller_main_menu,controller_menu_levels
+import model,view_game,controller_game,time,view_menu_levels
 import view_main_menu
 
 while True:
@@ -11,3 +11,6 @@ while True:
     if model.active_screen=='main':
         view_main_menu.view()
         controller_main_menu.event()
+    if model.active_screen=='levels':
+        controller_menu_levels.event()
+        view_menu_levels.view()

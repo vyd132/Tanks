@@ -73,15 +73,3 @@ def event():
         if event.type == pygame.KEYUP and event.key == pygame.K_RETURN:
             tank_helper.upgrade(model.t2)
 
-        if event.type == pygame.KEYUP and event.key == pygame.K_f:
-            tank_helper.enemy_downgarde(model.t4)
-        if event.type == pygame.MOUSEBUTTONDOWN and event.button == pygame.BUTTON_RIGHT:
-            bullet_helper.bullet_spawn(model.t4,model.map_size,model.bullets)
-        # if event.type == pygame.KEYUP and event.key == pygame.K_g:
-        #     tank_helper.downgrade(model.t4)
-        #     model.changes = True
-
-        if event.type == pygame.KEYUP and event.key == pygame.K_t:
-            tank_helper.upgrade(model.t3)
-        if event.type == pygame.KEYUP and event.key == pygame.K_y:
-            tank_helper.downgrade(model.t3)
