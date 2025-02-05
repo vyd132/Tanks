@@ -16,11 +16,22 @@
       }
     },
 
-   "colours":
+  "@level_buttons":
+  {"colours":
    {"normal_border": "#FFFFFF"
    },
     "misc":{
       "border_width": "10"
     }
+  }
+  },
+  "@level_labels":
+  {"font":
+    {"name": "hooge 05_55",
+      "size": "40"
+
+
+    }
+
   }
 }
