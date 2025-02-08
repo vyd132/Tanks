@@ -6,5 +6,5 @@ def event():
     for event in events:
         if event.type==pygame.QUIT:
             exit()
-
+        model_menu_levels.levels_buttons_check(event)
         mananger.process_events(event)

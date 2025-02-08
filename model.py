@@ -87,8 +87,8 @@ def search_type_wave(type,lvl):
 
 
 def enemy_spawn(type):
-    search_type_wave(type, levels.levels_list[levels.current_level - 1])
-    tank_level_dict=search_type(type,levels.levels_list[levels.current_level-1])
+    search_type_wave(type, levels.levels_list[levels.current_level])
+    tank_level_dict=search_type(type,levels.levels_list[levels.current_level])
     if tank_level_dict is None:
         return
     if tank_level_dict['wave_start']!=True or len(tank_level_dict['tanks_list'])==0:
