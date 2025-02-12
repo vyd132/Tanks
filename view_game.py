@@ -7,6 +7,7 @@ import animation_helper
 
 def view():
     global screen,brick,steel,tank,tank2
+    model.mananger.update(1 / 60)
     screen.fill([0, 0, 0])
     for line in model.rects:
         block_image=block_helper.image_block_create(line)
@@ -30,6 +31,7 @@ def view():
             pygame.draw.rect(screen, [255, 255, 0], bullet["rect"], width=1)
         for tanks in model.tanks:
             tank_helper.debug_view(tanks,screen)
+    model.mananger.draw_ui(view_main.screen)
     pygame.display.flip()
 
 

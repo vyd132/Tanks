@@ -1,6 +1,6 @@
 import random
 
-import pygame,rect_helper,block_helper,tank_helper
+import pygame,rect_helper,block_helper,tank_helper,pygame_gui
 
 import animation_helper
 import bullet_helper
@@ -135,7 +135,17 @@ t2=tank_helper.tank_create(5,4,'player','yellow',map_size,2,0)
 tanks=[t1,t2]
 bullets=[]
 effects=[]
-
+game_run=True
 levels.level_change(1)
 
 active_screen='main'
+mananger=pygame_gui.UIManager((1000,1000))
+window_rect=pygame.rect.Rect([0,0,300,400])
+button_menu_rect_resume=pygame.rect.Rect([10,20,270,50])
+button_menu_rect_exit=pygame.rect.Rect([10,90,270,50])
+window=pygame_gui.elements.UIPanel(window_rect,manager=mananger,anchors={'center':'center'},visible=False,container=None)
+button_menu_resume=pygame_gui.elements.UIButton(button_menu_rect_resume,'Resume',mananger,container=window)
+button_menu_exit=pygame_gui.elements.UIButton(button_menu_rect_exit,'Exit to menu',mananger,container=window)
+
+
+

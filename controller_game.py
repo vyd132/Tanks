@@ -1,7 +1,7 @@
 import random
 import time
 
-import pygame,model,bullet_helper,tank_helper,animation_helper
+import pygame,model,bullet_helper,tank_helper,animation_helper,pygame_gui
 
 import levels
 import view_game
@@ -18,6 +18,7 @@ pygame.time.set_timer(timer_anim,100)
 def event():
     events=pygame.event.get()
     for event in events:
+        model.mananger.process_events(event)
         if event.type==pygame.QUIT:
             exit()
         if event.type == pygame.KEYDOWN and event.key == pygame.K_TAB:
@@ -27,9 +28,21 @@ def event():
         if event.type == pygame.KEYDOWN and event.key == pygame.K_q:
             model.show_image=not model.show_image
 
+        if event.type == pygame.KEYUP and event.key == pygame.K_ESCAPE:
+
+            # model.window.visible=not model.window.visible
+            model.game_run = not model.game_run
+            if model.game_run==False:
+                model.window.show()
+            else:
+                model.window.hide(True)
         # if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
         #     animation_helper.create(model.effects,random.randint(0,1000),random.randint(0,1000))
+        if event.type == pygame_gui.UI_BUTTON_PRESSED and event.ui_element == model.button_menu_resume:
+            print('work')
 
+        if model.game_run!=True:
+            continue
 
         if event.type==timer_anim:
             model.animation_change()
