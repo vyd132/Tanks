@@ -29,17 +29,15 @@ def event():
             model.show_image=not model.show_image
 
         if event.type == pygame.KEYUP and event.key == pygame.K_ESCAPE:
+            model.pause_control()
 
-            # model.window.visible=not model.window.visible
-            model.game_run = not model.game_run
-            if model.game_run==False:
-                model.window.show()
-            else:
-                model.window.hide(True)
         # if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
         #     animation_helper.create(model.effects,random.randint(0,1000),random.randint(0,1000))
         if event.type == pygame_gui.UI_BUTTON_PRESSED and event.ui_element == model.button_menu_resume:
-            print('work')
+            model.pause_control()
+
+        if event.type == pygame_gui.UI_BUTTON_PRESSED and event.ui_element == model.button_menu_exit:
+            model.screen_change('levels')
 
         if model.game_run!=True:
             continue

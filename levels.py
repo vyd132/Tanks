@@ -30,8 +30,8 @@ level2={'map':"""00122100
         'y': 0,
         't_angle':270,
         'enemy_pos':[{'x':0,"y":7,'time':1000,'tanks_list':[0,3,2,1,1,2,3],'sleep':3000,'wave_start':False},
-                     {'x':7,"y":7,'time':2000,'tanks_list':[2,3,1,1,0,0],'sleep':10000,'wave_start':False},
-                     {'x':1,"y":7,'time':3000,'tanks_list':[],'sleep':5000,'wave_start':False}],
+                     {'x':7,"y":7,'time':2000,'tanks_list':[2,3,1,1,0,0],'sleep':15000,'wave_start':False},
+                     {'x':1,"y":7,'time':3000,'tanks_list':[1,2,1,2,1,1],'sleep':5000,'wave_start':False}],
         'name':'level_test\n'
 
 
@@ -44,5 +44,9 @@ def level_change(level_number):
     current_level=level_number
     messenger.broadcast('level_changed',levels_list[current_level])
 
-
+def enemy_on_wave_check(lvl_dict):
+    for wave in lvl_dict['enemy_pos']:
+        if len(wave['tanks_list_copy'])!=0:
+            return False
+    return True
 

@@ -50,12 +50,18 @@ def map_create(karta):
     return rects
 
 def model_messeges(type_mes, who, addons):
-    global rects
+    global rects,active_screen,game_run
     if type_mes=='tank_died':
         animation_helper.create(effects,who['rect'].centerx,who['rect'].centery,anim_list_dict_big,3)
+        if who['type']=='player':
+            active_screen='levels'
+        print(len(tanks))
+        print(levels.levels_list[levels.current_level])
+        end_game(levels.levels_list[levels.current_level])
     if type_mes=='steel not breaked':
         animation_helper.create(effects,addons.centerx,addons.centery,anim_list_dict_small,1)
     if type_mes=='level_changed':
+        game_run = True
         rects=map_create(who['map'])
         tank_helper.pos_change(who['x'],who['y'],t1)
         tank_helper.angle_change(t1,who['t_angle'])
@@ -63,10 +69,14 @@ def model_messeges(type_mes, who, addons):
         effects.clear()
         tank_helper.bullets_clear(t1)
         for lvl_dict in who['enemy_pos']:
+            lvl_dict['wave_start'] = False
+            lvl_dict['tanks_list_copy'] = lvl_dict['tanks_list'].copy()
+
+            if 'custom_type' in lvl_dict:
+                pygame.time.set_timer(lvl_dict['custom_type'], 0)
             timer_spawn = pygame.event.custom_type()
             pygame.time.set_timer(timer_spawn,lvl_dict['time'])
             lvl_dict['custom_type']=timer_spawn
-
             timer_wave = pygame.event.custom_type()
             pygame.time.set_timer(timer_wave, lvl_dict['sleep'],1)
             lvl_dict['custom_type_wave'] = timer_wave
@@ -77,6 +87,7 @@ def model_messeges(type_mes, who, addons):
 def search_type(type,lvl):
     for lvl_dict in lvl['enemy_pos']:
         if lvl_dict['custom_type']==type:
+            # print('work')
             return lvl_dict
 
 def search_type_wave(type,lvl):
@@ -85,20 +96,39 @@ def search_type_wave(type,lvl):
             lvl_dict['wave_start']=True
 
 
+def end_game(lvl_dict):
+    if levels.enemy_on_wave_check(lvl_dict) and len(tanks)==1 and tanks[0]['type']=='player':
+        screen_change('levels')
+
+
+
 
 def enemy_spawn(type):
     search_type_wave(type, levels.levels_list[levels.current_level])
     tank_level_dict=search_type(type,levels.levels_list[levels.current_level])
     if tank_level_dict is None:
         return
-    if tank_level_dict['wave_start']!=True or len(tank_level_dict['tanks_list'])==0:
+    if tank_level_dict['wave_start']!=True or len(tank_level_dict['tanks_list_copy'])==0:
         return
-    new_tank=tank_helper.tank_create(tank_level_dict['x'],tank_level_dict['y'],'enemy','white',map_size,3,tank_level_dict['tanks_list'][0])
-    del tank_level_dict['tanks_list'][0]
+    new_tank=tank_helper.tank_create(tank_level_dict['x'],tank_level_dict['y'],'enemy','white',map_size,3,tank_level_dict['tanks_list_copy'][0])
+    del tank_level_dict['tanks_list_copy'][0]
     task_wait.action_create(new_tank['task'],new_tank)
     tanks.append(new_tank)
 
 
+def pause_control():
+    global game_run
+    game_run = not game_run
+    if game_run == False:
+        window.show()
+    else:
+        window.hide(True)
+
+
+def screen_change(screen):
+    global active_screen
+    active_screen = screen
+    window.hide(True)
 
 show_rects=False
 show_image=True
@@ -130,9 +160,9 @@ messenger.add_subs(model_messeges)
 
 # Подоготовка танка
 t1=tank_helper.tank_create(0,0,'player','purple',map_size,18,2)
-t2=tank_helper.tank_create(5,4,'player','yellow',map_size,2,0)
+# t2=tank_helper.tank_create(5,4,'player','yellow',map_size,2,0)
 
-tanks=[t1,t2]
+tanks=[t1]
 bullets=[]
 effects=[]
 game_run=True
